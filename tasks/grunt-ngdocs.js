@@ -8,7 +8,11 @@
 
 var reader = require('../src/reader.js'),
     ngdoc = require('../src/ngdoc.js'),
+    template = require('lodash/template'),
+    flatten = require('lodash/flatten'),
+    union = require('lodash/union'),
     path = require('path'),
+    upath = require('upath'),
     vm = require('vm');
 
 var repohosts = [
@@ -20,8 +24,7 @@ var repohosts = [
 ];
 
 module.exports = function(grunt) {
-  var _ = grunt.util._,
-      unittest = {},
+  var unittest = {},
       templates = path.resolve(__dirname, '../src/templates');
 
   grunt.registerMultiTask('ngdocs', 'build documentation', function() {
@@ -54,9 +57,8 @@ module.exports = function(grunt) {
     var gruntStylesFolder = 'grunt-styles';
 
   	// If the options.script is an array of arrays ( useful when working with variables, for example: ['<%= vendor_files %>','<%= app_files %>'] )
-  	// convert to a single array with _.flatten ( http://underscorejs.org/#flatten )
-  	options.scripts = _.flatten(options.scripts);
-    options.scripts = _.map(options.scripts, function(file) {
+  	// convert to a single array ( https://lodash.com/docs/4.17.4#flatten )
+  	options.scripts = flatten(options.scripts).map(function(file) {
       if (file === 'angular.js') {
         return 'js/angular.min.js';
       }
@@ -97,7 +99,7 @@ module.exports = function(grunt) {
       options.image = gruntStylesFolder + '/' + options.image;
     }
 
-    options.styles = _.map(options.styles, function(file) {
+    options.styles = options.styles.map(function(file) {
       if (linked.test(file)) {
         return file;
       }
@@ -136,7 +138,7 @@ module.exports = function(grunt) {
 
     ngdoc.checkBrokenLinks(reader.docs, setup.apis, options);
 
-    setup.pages = _.union(setup.pages, ngdoc.metadata(reader.docs));
+    setup.pages = union(setup.pages, ngdoc.metadata(reader.docs));
 
     if (options.navTemplate) {
       options.navContent = grunt.file.read(options.navTemplate);
@@ -164,12 +166,13 @@ module.exports = function(grunt) {
 
   function makeLinkFn(tmpl, values) {
       if (!tmpl || tmpl === true) { return false; }
-      if (/\{\{\s*sha\s*\}\}/.test(tmpl)) {
+      if (/\{\{\s*(sha|rev)\s*\}\}/.test(tmpl)) {
         var shell = require('shelljs');
         var sha = shell.exec('git rev-parse HEAD', { silent: true });
-        values.sha = ('' + sha.output).slice(0, 7);
+        values.rev = '' + sha.output;
+        values.sha = values.rev.slice(0, 7);
       }
-      tmpl = _.template(tmpl, undefined, {'interpolate': /\{\{(.+?)\}\}/g});
+      tmpl = template(tmpl, {'interpolate': /\{\{(.+?)\}\}/g});
       return function(file, line, codeline) {
         values.file = file;
         values.line = line;
@@ -217,7 +220,7 @@ module.exports = function(grunt) {
       vm.runInNewContext(data, context, file);
       setup = context.NG_DOCS;
       // keep only pages from other build tasks
-      setup.pages = _.filter(setup.pages, function(p) {return p.section !== section;});
+      setup.pages = setup.pages.filter(function(p) {return p.section !== section;});
     } else {
       // build clean dest
       setup = {sections: {}, pages: [], apis: {}};
@@ -235,7 +238,7 @@ module.exports = function(grunt) {
           hiddenScripts: options.hiddenScripts,
           versionedFiles: options.versionedFiles,
           styles: options.styles,
-          sections: _.keys(setup.sections).join('|'),
+          sections: Object.keys(setup.sections).join('|'),
           discussions: options.discussions,
           analytics: options.analytics,
           navContent: options.navContent,
@@ -258,8 +261,9 @@ module.exports = function(grunt) {
     setup.editExample = options.editExample;
     setup.startPage = options.startPage;
     setup.discussions = options.discussions;
-    setup.scripts = _.map(options.scripts, function(url) { return path.basename(url); });
-    grunt.file.write(setup.__file, 'NG_DOCS=' + JSON.stringify(setup, replacer, 2) + '; ' + 'VERSIONED_FILES=' + JSON.stringify(options.versionedFiles, replacer, 2) + '; ');
+    setup.scripts = options.scripts.map(function(url) { return path.basename(url); });
+    grunt.file.write(setup.__file, 'NG_DOCS=' + JSON.stringify(setup, replacer, 2) + '; '
+      + 'VERSIONED_FILES=' + JSON.stringify(options.versionedFiles, replacer, 2) + '; ');
   }
 
 
@@ -284,7 +288,7 @@ module.exports = function(grunt) {
       // Get the partial content and replace the closing script tags with a placeholder
       var partialContent = grunt.file.read(path.join(indexFolder, partial))
         .replace(/<\/script>/g, '<___/script___>');
-      return '<script type="text/ng-template" id="' + partial + '">' + partialContent + '<' + '/script>';
+      return '<script type="text/ng-template" id="' + upath.normalize(partial) + '">' + partialContent + '<' + '/script>';
     }).join('');
     // During page initialization replace the placeholder back to the closing script tag
     // @see https://github.com/angular/angular.js/issues/2820

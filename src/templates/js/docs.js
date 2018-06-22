@@ -266,6 +266,7 @@ docsApp.controller.DocsController = function($scope, $location, $window, $timeou
       GLOBALS = /^angular\.([^\.]+)$/,
       MODULE = /^([^\.]+)$/,
       MODULE_MOCK = /^angular\.mock\.([^\.]+)$/,
+      MODULE_COMPONENT = /^(.+)\.components?:([^\.]+)$/,
       MODULE_CONTROLLER = /^(.+)\.controllers?:([^\.]+)$/,
       MODULE_DIRECTIVE = /^(.+)\.directives?:([^\.]+)$/,
       MODULE_DIRECTIVE_INPUT = /^(.+)\.directives?:input\.([^\.]+)$/,
@@ -294,8 +295,8 @@ docsApp.controller.DocsController = function($scope, $location, $window, $timeou
       last: this.$last,
       active: page1 && this.currentPage == page1 || page2 && this.currentPage == page2,
       match: this.focused && this.currentPage != page1 &&
-             this.bestMatch.rank > 0 && this.bestMatch.page == page1
-
+             this.bestMatch.rank > 0 && this.bestMatch.page == page1,
+      deprecate: page1.isDeprecated
     };
   };
 
@@ -504,6 +505,8 @@ docsApp.controller.DocsController = function($scope, $location, $window, $timeou
         module(match[1], section);
       } else if (match = id.match(MODULE_FILTER)) {
         module(page.moduleName || match[1], section).filters.push(page);
+      } else if (match = id.match(MODULE_COMPONENT)) {
+        module(page.moduleName || match[1], section).components.push(page);
       } else if (match = id.match(MODULE_CONTROLLER) && page.type === 'controller') {
         module(page.moduleName || match[1], section).controllers.push(page);
       } else if (match = id.match(MODULE_DIRECTIVE)) {
@@ -548,6 +551,7 @@ docsApp.controller.DocsController = function($scope, $location, $window, $timeou
           name: name,
           url: (NG_DOCS.html5Mode ? '' : '#!/') + section + '/' + name,
           globals: [],
+          components: [],
           controllers: [],
           directives: [],
           services: [],

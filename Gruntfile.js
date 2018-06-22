@@ -1,6 +1,5 @@
 /*global module:false*/
 module.exports = function (grunt) {
-
   grunt.loadNpmTasks('grunt-conventional-changelog');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-jasmine-node');
@@ -9,8 +8,14 @@ module.exports = function (grunt) {
     pkg: grunt.file.readJSON('package.json'),
     changelog: { options: { dest: 'CHANGELOG.md' } },
     jasmine_node: {
-      forceexit: true,
-      captureExceptions: true
+      options: {
+        forceExit: true,
+        match: '.',
+        matchall: false,
+        extensions: 'js',
+        specNameMatcher: 'spec'
+      },
+      all: ['spec/']
     },
     watch: {
       parser: {
@@ -21,5 +26,4 @@ module.exports = function (grunt) {
   });
 
   grunt.registerTask('test', 'Run tests for parser code', ['jasmine_node']);
-
 };
