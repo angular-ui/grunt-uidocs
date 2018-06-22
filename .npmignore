@@ -2,3 +2,4 @@
 .idea
 *.sublime-*
 spec
+Gruntfile.js
