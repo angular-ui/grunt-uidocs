@@ -10,9 +10,7 @@ branches:
 
 install:
   - npm config set spin false
-
-before_script:
-  - npm install -g grunt-cli
+  - npm install
 
 script:
   - npm test
