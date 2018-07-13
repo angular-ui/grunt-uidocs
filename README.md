@@ -1,4 +1,9 @@
 # grunt-uidocs
+
+[![Build](https://travis-ci.org/angular-ui/grunt-uidocs.svg?branch=master)](https://travis-ci.org/angular-ui/grunt-uidocs)
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/angular-ui/grunt-uidocs/blob/master/LICENSE)
+[![GitHub issues](https://img.shields.io/github/issues/angular-ui/grunt-uidocs.svg?style=flat)](https://github.com/angular-ui/grunt-uidocs/issues)
+
 > Grunt plugin to create a documentation like [AngularJS](http://docs.angularjs.org). Forked from [grunt-ngdocs](https://github.com/m7r/grunt-ngdocs).
 
 NOTE: this plugin requires Grunt >=0.4.x and is NOT YET RELEASED.
