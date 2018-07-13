@@ -28,7 +28,7 @@ module.exports = function (grunt) {
       },
       all: ['spec/']
     },
-    ngdocs: {
+    uidocs: {
       options: {
         versionedFiles: {
           default: 'stable',
@@ -37,7 +37,7 @@ module.exports = function (grunt) {
           }
         },
         scripts: ['angular.js'],
-        html5Mode: false
+        html5Mode: true
       },
       all: ['mock-app/*.js']
     },

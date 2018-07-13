@@ -134,7 +134,7 @@ describe('ngdoc', function() {
 				});
 
 				it('should not change external url', function() {
-					expect(doc.convertUrlToAbsolute('https://github.com/mportugal/grunt-ngdocs')).toEqual('https://github.com/mportugal/grunt-ngdocs');
+					expect(doc.convertUrlToAbsolute('https://github.com/angular-ui/grunt-uidocs')).toEqual('https://github.com/angular-ui/grunt-uidocs');
 				});
 			});
 

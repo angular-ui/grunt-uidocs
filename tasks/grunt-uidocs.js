@@ -1,8 +1,8 @@
 /*
- * grunt-ngdocs
- * https://github.com/m7r/grunt-ngdocs
+ * grunt-uidocs
+ * https://github.com/angular-ui/grunt-uidocs
  *
- * Copyright (c) 2013 m7r
+ * Copyright (c) 2013-2018 m7r and Marcelo Sauerbrunn Portugal
  * Licensed under the MIT license.
  */
 
@@ -28,7 +28,7 @@ module.exports = function(grunt) {
   var unittest = {},
       templates = path.resolve(__dirname, '../src/templates');
 
-  grunt.registerMultiTask('ngdocs', 'build documentation', function() {
+  grunt.registerMultiTask('uidocs', 'build documentation', function() {
     var start = now(),
         pkg = getPackage(),
         done = this.async(),

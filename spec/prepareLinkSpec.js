@@ -1,6 +1,6 @@
 describe('prepareLinks', function() {
   var grunt = require('grunt');
-  var prepareLinks = require('../tasks/grunt-ngdocs.js')(grunt).prepareLinks;
+  var prepareLinks = require('../tasks/grunt-uidocs.js')(grunt).prepareLinks;
 
   it('should handel github https url', function() {
     var pkg = {repository: {url: 'https://github.com/owner/name'}};
