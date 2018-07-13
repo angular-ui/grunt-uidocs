@@ -1,6 +1,6 @@
-# grunt-ngdocs
-Grunt plugin to create a documentation like [AngularJS](http://docs.angularjs.org)
-NOTE: this plugin requires Grunt 0.4.x
+# grunt-uidocs
+> Grunt plugin to create a documentation like [AngularJS](http://docs.angularjs.org). Forked from [grunt-ngdocs](https://github.com/m7r/grunt-ngdocs).
+NOTE: this plugin requires Grunt >=0.4.x and is NOT YET RELEASED.
 
 ATTENTION: grunt-ngdocs 0.2+ is for angularjs 1.2+
 grunt-ngdocs 0.2.5 supports angularjs 1.3+ too
@@ -9,12 +9,12 @@ Please include angular.js and angular-animate.js with the scripts option
 ## Getting Started
 From the same directory as your project's Gruntfile and package.json, install this plugin with the following command:
 
-`npm install grunt-ngdocs --save-dev`
+`npm install grunt-uidocs --save-dev`
 
 Once that's done, add this line to your project's Gruntfile:
 
 ```js
-grunt.loadNpmTasks('grunt-ngdocs');
+grunt.loadNpmTasks('grunt-uidocs');
 ```
 
 A full working example can be found at [https://github.com/m7r/grunt-ngdocs-example]()
