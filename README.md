@@ -1,5 +1,6 @@
 # grunt-uidocs
 > Grunt plugin to create a documentation like [AngularJS](http://docs.angularjs.org). Forked from [grunt-ngdocs](https://github.com/m7r/grunt-ngdocs).
+
 NOTE: this plugin requires Grunt >=0.4.x and is NOT YET RELEASED.
 
 ATTENTION: grunt-ngdocs 0.2+ is for angularjs 1.2+
