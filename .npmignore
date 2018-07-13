@@ -1,5 +1,8 @@
 .github
 .idea
+.tmp
 *.sublime-*
+docs
+mock-app
 spec
 Gruntfile.js
