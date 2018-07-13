@@ -10,6 +10,7 @@ var reader = require('../src/reader.js'),
     ngdoc = require('../src/ngdoc.js'),
     template = require('lodash/template'),
     flatten = require('lodash/flatten'),
+    map = require('lodash/map'),
     union = require('lodash/union'),
     path = require('path'),
     upath = require('upath'),
@@ -76,7 +77,7 @@ module.exports = function(grunt) {
       return gruntScriptsFolder + '/' + filename;
     });
 
-    options.hiddenScripts = _.map(options.hiddenScripts, function(file) {
+    options.hiddenScripts = map(options.hiddenScripts, function(file) {
       if (linked.test(file)) {
         return file;
       } else {
@@ -90,7 +91,7 @@ module.exports = function(grunt) {
       }
     });
 
-     _.map(options.httpScripts, function(src) {
+    map(options.httpScripts, function(src) {
       options.scripts.push(src);
     });
 

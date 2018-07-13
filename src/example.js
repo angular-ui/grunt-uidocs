@@ -7,12 +7,11 @@ var makeUnique = {
   'unit.js': true,
   'spec.js': true,
   'scenario.js': true
-}
+};
 
 function ids(list) {
   return list.map(function(item) { return item.id; }).join(' ');
-};
-
+}
 
 exports.Example = function(scenarios) {
   this.module = '';
@@ -24,7 +23,7 @@ exports.Example = function(scenarios) {
   this.unit = [];
   this.scenario = [];
   this.scenarios = scenarios;
-}
+};
 
 exports.Example.prototype.setModule = function(module) {
   if (module) {
@@ -48,7 +47,7 @@ exports.Example.prototype.addSource = function(name, content) {
     id = name + '-' + (seqCount++);
   }
   usedIds[id] = true;
-  
+
   this[ext].push({name: name, content: content, id: id});
   if (name.match(/\.js$/) && name !== 'spec.js' && name !== 'unit.js' && name != 'scenario.js') {
     this.deps.push(name);
@@ -144,4 +143,3 @@ exports.Example.prototype.toHtmlEmbed = function() {
   out.push('</div>');
   return out.join('');
 };
-
