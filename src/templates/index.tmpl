@@ -171,7 +171,7 @@
     </div>
 
     <div class="row">
-      <div class="col-xs-4 col-sm-3">
+      <div class="col-xs-12 col-sm-3">
         <div ng-if="versionedFiles && versionedFiles.versions">
           <select class="form-control" name="docsVersion" aria-label="Docs Version" ng-model="currentVersion" ng-init="currentVersion = versionedFiles.default" ng-options="key as key for (key, value) in versionedFiles.versions"  ng-change="changeVersion(currentVersion)"></select>
           <div id="versionedFiles">
@@ -276,7 +276,7 @@
 
         </form>
       </div>
-      <div class="col-xs-8 col-sm-9">
+      <div class="col-xs-12 col-sm-9">
         <ul id="nav-tag" class="breadcrumb" tabindex="-1">
           <li ng-repeat="crumb in breadcrumb">
             <div ng-hide="crumb.url">{{crumb.name}}</div>

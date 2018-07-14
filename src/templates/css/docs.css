@@ -75,9 +75,8 @@ img.AngularJS-small {
   display: inline-block;
 }
 
-/* limit container to tablet width - phone users need to scroll */
 .container-fluid {
-  min-width: 769px;
+  min-width: 305px;
 }
 
 /*control responsive navbar using ng-show, as though it is an "if" in html using 2 media sizes */
@@ -90,6 +89,9 @@ img.AngularJS-small {
 @media (min-width: 768px) {
   .for-lg-view-hide {
     display: none;
+  }
+  .form-search {
+    margin-right: 10px;
   }
 }
 
@@ -125,10 +127,6 @@ img.AngularJS-small {
 }
 
 /* =============================== */
-
-.form-search {
-  margin-right: 10px;
-}
 
 .form-search .search-query {
   width: 180px;
