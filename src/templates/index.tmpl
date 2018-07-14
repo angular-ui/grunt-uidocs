@@ -287,7 +287,7 @@
 
         <div id="loading" ng-show="loading">Loading...</div>
 
-        <div ng-if="adsConfig">
+        <% if (adsConfig) { %>
           <div class="row text-center" ng-if="adsConfig.client && adsConfig.slot">
             <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
             <ins class="adsbygoogle"
@@ -302,7 +302,7 @@
           </div>
 
           <br>
-        </div>
+        <% } %>
 
         <div ng-hide="loading" ng-include src="currentPage.partialUrl" onload="afterPartialLoaded()" autoscroll class="content slide-reveal"></div>
 <% if (discussions) { %>
