@@ -170,7 +170,7 @@ module.exports = function(grunt) {
       if (/\{\{\s*(sha|rev)\s*\}\}/.test(tmpl)) {
         var shell = require('shelljs');
         var sha = shell.exec('git rev-parse HEAD', { silent: true });
-        values.rev = '' + sha.output;
+        values.rev = sha.output ? '' + sha.output : 'master';
         values.sha = values.rev.slice(0, 7);
       }
       tmpl = template(tmpl, {'interpolate': /\{\{(.+?)\}\}/g});

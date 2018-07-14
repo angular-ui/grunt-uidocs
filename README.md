@@ -51,12 +51,12 @@ uidocs: {
     inlinePartials: true,
     bestMatch: true,
     analytics: {
-          account: 'UA-08150815-0'
+      account: 'UA-08150815-0'
     },
     discussions: {
-          shortName: 'my',
-          url: 'http://my-domain.com',
-          dev: false
+      shortName: 'my',
+      url: 'http://my-domain.com',
+      dev: false
     }
   },
   tutorial: {
