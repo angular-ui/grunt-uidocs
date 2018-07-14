@@ -128,9 +128,11 @@ docsApp.serviceFactory.loadedUrls = function($document, versionedFiles) {
     }
   });
 
-  angular.forEach(versionedFiles.files, function(file) {
-    urls.base.push(file.src);
-  });
+  if (versionedFiles) {
+    angular.forEach(versionedFiles.files, function(file) {
+      urls.base.push(file.src);
+    });
+  }
 
   return urls;
 };
@@ -325,6 +327,10 @@ docsApp.controller.DocsController = function($scope, $location, $window, $timeou
   $scope.versionedFiles = VERSIONED_FILES;
 
   $scope.setVersion = function (version) {
+    if (!$scope.versionedFiles || !$scope.versionedFiles.versions) {
+      return;
+    }
+
     if (!version) {
       version = $scope.versionedFiles.default;
     };
@@ -365,7 +371,7 @@ docsApp.controller.DocsController = function($scope, $location, $window, $timeou
   });
   $scope.$watch(function docsPathWatch() {return $location.path(); }, function docsPathWatchAction(path) {
 
-    if ($scope.versionedFiles.waitEval) {
+    if ($scope.versionedFiles && $scope.versionedFiles.waitEval) {
       function evaler() {
         if (! eval($scope.versionedFiles.waitEval)) {
           $timeout(evaler, 200);
