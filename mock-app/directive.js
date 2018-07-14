@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * @ngdoc directive
+ * @uidoc directive
  * @name rfx.directive:rAutogrow
  * @element textarea
  * @function

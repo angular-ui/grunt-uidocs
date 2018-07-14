@@ -1,8 +1,8 @@
-var ngdoc = require('../src/ngdoc.js');
+var uidoc = require('../src/uidoc.js');
 var DOM = require('../src/dom.js').DOM;
 
-describe('ngdoc', function() {
-	var Doc = ngdoc.Doc,
+describe('uidoc', function() {
+	var Doc = uidoc.Doc,
 		dom;
 
 	beforeEach(function() {
@@ -33,26 +33,26 @@ describe('ngdoc', function() {
 				var d1 = new Doc('@name a.b.c').parse();
 				var d2 = new Doc('@name a.b.ng-c').parse();
 				var d3 = new Doc('@name some text: more text').parse();
-				expect(ngdoc.metadata([d1])[0].shortName).toEqual('a.b.c');
-				expect(ngdoc.metadata([d2])[0].shortName).toEqual('a.b.ng-c');
-				expect(ngdoc.metadata([d3])[0].shortName).toEqual('more text');
+				expect(uidoc.metadata([d1])[0].shortName).toEqual('a.b.c');
+				expect(uidoc.metadata([d2])[0].shortName).toEqual('a.b.ng-c');
+				expect(uidoc.metadata([d3])[0].shortName).toEqual('more text');
 			});
 
 			it('should support module names with dots', function() {
 				var d1 = new Doc('@name a.b.c').parse();
 				var d2 = new Doc('@name a.b.ng-c').parse();
 				var d3 = new Doc('@name some.more.text: more text').parse();
-				expect(ngdoc.metadata([d1])[0].moduleName).toEqual('a.b');
-				expect(ngdoc.metadata([d2])[0].moduleName).toEqual('a.b');
-				expect(ngdoc.metadata([d3])[0].moduleName).toEqual('some.more');
+				expect(uidoc.metadata([d1])[0].moduleName).toEqual('a.b');
+				expect(uidoc.metadata([d2])[0].moduleName).toEqual('a.b');
+				expect(uidoc.metadata([d3])[0].moduleName).toEqual('some.more');
 			});
 
 			it('should allow to overwrite module name', function() {
 				var d1 = new Doc('@name a.b.c').parse();
 				var d2 = new Doc('@name a.b.c\n@module d.e.f').parse();
-				expect(ngdoc.metadata([d1])[0].moduleName).toEqual('a.b');
-				expect(ngdoc.metadata([d2])[0].shortName).toEqual('a.b.c');
-				expect(ngdoc.metadata([d2])[0].moduleName).toEqual('d.e.f');
+				expect(uidoc.metadata([d1])[0].moduleName).toEqual('a.b');
+				expect(uidoc.metadata([d2])[0].shortName).toEqual('a.b.c');
+				expect(uidoc.metadata([d2])[0].moduleName).toEqual('d.e.f');
 			});
 		});
 
@@ -94,7 +94,7 @@ describe('ngdoc', function() {
 			});
 
 			it('should parse filename', function() {
-				var doc = new Doc('@name friendly name', 'docs/a.b.ngdoc', 1);
+				var doc = new Doc('@name friendly name', 'docs/a.b.uidoc', 1);
 				doc.parse(0);
 				expect(doc.id).toEqual('a.b');
 				expect(doc.name).toEqual('friendly name');
@@ -108,10 +108,10 @@ describe('ngdoc', function() {
 			});
 
 			it('should correctly parse capitalized service names', function() {
-				var doc = new Doc('@ngdoc service\n@name my.module.Service');
+				var doc = new Doc('@uidoc service\n@name my.module.Service');
 				doc.parse();
-				expect(ngdoc.metadata([doc])[0].shortName).toEqual('my.module.Service');
-				expect(ngdoc.metadata([doc])[0].moduleName).toEqual('my.module');
+				expect(uidoc.metadata([doc])[0].shortName).toEqual('my.module.Service');
+				expect(uidoc.metadata([doc])[0].moduleName).toEqual('my.module');
 			});
 
 			describe('convertUrlToAbsolute', function() {
@@ -158,7 +158,7 @@ describe('ngdoc', function() {
 				});
 
 				it('should not change external url', function() {
-					expect(doc.convertUrlToAbsolute('https://github.com/m7r/grunt-ngdocs')).toEqual('https://github.com/m7r/grunt-ngdocs');
+					expect(doc.convertUrlToAbsolute('https://github.com/m7r/grunt-uidocs')).toEqual('https://github.com/m7r/grunt-uidocs');
 				});
 			});
 
@@ -169,11 +169,11 @@ describe('ngdoc', function() {
 					};
 				}
 
-				var dev_guide_overview = new Doc({ngdoc: 'overview', id: 'dev_guide.overview', text: ''});
-				var dev_guide_bootstrap = new Doc({ngdoc: 'function', id: 'dev_guide.bootstrap', text: ''});
+				var dev_guide_overview = new Doc({uidoc: 'overview', id: 'dev_guide.overview', text: ''});
+				var dev_guide_bootstrap = new Doc({uidoc: 'function', id: 'dev_guide.bootstrap', text: ''});
 
 				it('should put angular.fn() in front of dev_guide.overview, etc', function() {
-					expect(ngdoc.metadata([dev_guide_overview, dev_guide_bootstrap]).map(property('id')))
+					expect(uidoc.metadata([dev_guide_overview, dev_guide_bootstrap]).map(property('id')))
 						.toEqual(['dev_guide.overview', 'dev_guide.bootstrap']);
 				});
 			});
@@ -273,7 +273,7 @@ describe('ngdoc', function() {
 	});
 
 	describe('trim', function() {
-		var trim = ngdoc.trim;
+		var trim = uidoc.trim;
 		it('should remove leading/trailing space', function() {
 			expect(trim('  \nabc\n  ')).toEqual('abc');
 		});
@@ -293,7 +293,7 @@ describe('ngdoc', function() {
 			var eventA = new Doc({name: 'eventA', eventOf: 'ng.abc', section: 'api'});
 			var eventB = new Doc({name: 'eventB', eventOf: 'ng.abc', section: 'api'});
 			var docs = [methodB, methodA, eventB, eventA, propA, propB, parent]; // keep wrong order;
-			ngdoc.merge(docs);
+			uidoc.merge(docs);
 			expect(docs.length).toEqual(1);
 			expect(docs[0].id).toEqual('ng.abc');
 			expect(docs[0].methods).toEqual([methodA, methodB]);
@@ -314,7 +314,7 @@ describe('ngdoc', function() {
 
 		it('should log warning when a linked page does not exist', function() {
 			docs.push(new Doc({section: 'api', id: 'with-broken.link', links: ['non-existing-link']}))
-			ngdoc.checkBrokenLinks(docs, apis);
+			uidoc.checkBrokenLinks(docs, apis);
 			expect(console.log).toHaveBeenCalled();
 			var warningMsg = console.log.argsForCall[0][0]
 			expect(warningMsg).toContain('WARNING:');
@@ -324,7 +324,7 @@ describe('ngdoc', function() {
 
 		it('should log warning when a linked anchor does not exist', function() {
 			docs.push(new Doc({section: 'api', id: 'with-broken.link', links: ['api/fake.id1#non-existing']}))
-			ngdoc.checkBrokenLinks(docs, apis);
+			uidoc.checkBrokenLinks(docs, apis);
 			expect(console.log).toHaveBeenCalled();
 			var warningMsg = console.log.argsForCall[0][0]
 			expect(warningMsg).toContain('WARNING:');
@@ -366,7 +366,7 @@ describe('ngdoc', function() {
 			it('should parse more @requires tag into array', function() {
 				var doc = new Doc('@section api\n@name a\n@requires $service for \n`A`\n@requires $another for `B`',
 					'a', 1, 1, {html5Mode: true});
-				doc.ngdoc = 'service';
+				doc.uidoc = 'service';
 				doc.parse();
 				expect(doc.requires).toEqual([
 					{name: '$service', text: '<div class="a-page"><p>for\n<code>A</code></p>\n</div>'},
@@ -378,7 +378,7 @@ describe('ngdoc', function() {
 			});
 
 			it('should parse {@link} into external links', function() {
-				var doc = new Doc('@ngdoc overview\n' +
+				var doc = new Doc('@uidoc overview\n' +
 					'@name a\n' +
 					'@requires {@link https://github.com/angular-ui/ui-router}\n' +
 					'@requires {@link https://github.com/angular-ui/ui-router ui.router}\n' +
@@ -400,7 +400,7 @@ describe('ngdoc', function() {
 		describe('@scope', function() {
 			it('should state the new scope will be created', function() {
 				var doc = new Doc('@name a\n@scope');
-				doc.ngdoc = 'directive';
+				doc.uidoc = 'directive';
 				doc.parse();
 				expect(doc.scope).toEqual('');
 				expect(doc.html()).toContain('This directive creates new scope.');
@@ -410,7 +410,7 @@ describe('ngdoc', function() {
 		describe('@priority', function() {
 			it('should state the priority', function() {
 				var doc = new Doc('@name a\n@priority 123');
-				doc.ngdoc = 'directive';
+				doc.uidoc = 'directive';
 				doc.parse();
 				expect(doc.priority).toEqual('123');
 				expect(doc.html()).toContain('This directive executes at priority level 123.');
@@ -559,7 +559,7 @@ describe('ngdoc', function() {
 		describe('@this', function() {
 			it('should render @this', function() {
 				var doc = new Doc('@name a\n@this I am self.');
-				doc.ngdoc = 'filter';
+				doc.uidoc = 'filter';
 				doc.parse();
 				expect(doc.html()).toContain('<h3>Method\'s <code>this</code></h3>\n' +
 					'<div>' +
@@ -575,7 +575,7 @@ describe('ngdoc', function() {
 		describe('@animations', function() {
 			it('should render @this', function() {
 				var doc = new Doc('@name a\n@animations\nenter - Add text\nleave - Remove text\n');
-				doc.ngdoc = 'filter';
+				doc.uidoc = 'filter';
 				doc.parse();
 				expect(doc.html()).toContain(
 					'<h3 id="usage_animations">Animations</h3>\n' +
@@ -592,7 +592,7 @@ describe('ngdoc', function() {
 	describe('usage', function() {
 		describe('overview', function() {
 			it('should supress description heading', function() {
-				var doc = new Doc('@ngdoc overview\n@name angular\n@description\n# heading\ntext');
+				var doc = new Doc('@uidoc overview\n@name angular\n@description\n# heading\ntext');
 				doc.parse();
 				expect(doc.html()).toContain('text');
 				expect(doc.html()).toContain('<h2 id="heading">heading</h2>');
@@ -603,7 +603,7 @@ describe('ngdoc', function() {
 		describe('function', function() {
 			it('should format', function() {
 				var doc = new Doc({
-					ngdoc: 'function',
+					uidoc: 'function',
 					name: 'some.function:name',
 					param: [
 						{name: 'a', type: 'string', optional: true},
@@ -623,7 +623,7 @@ describe('ngdoc', function() {
 		describe('filter', function() {
 			it('should format', function() {
 				var doc = new Doc({
-					ngdoc: 'formatter',
+					uidoc: 'formatter',
 					shortName: 'myFilter',
 					param: [
 						{name: 'a', type: 'string'},
@@ -639,7 +639,7 @@ describe('ngdoc', function() {
 		describe('property', function() {
 			it('should format', function() {
 				var doc = new Doc({
-					ngdoc: 'property',
+					uidoc: 'property',
 					name: 'myProp',
 					type: 'string',
 					returns: {type: 'type', description: 'description'}
@@ -654,7 +654,7 @@ describe('ngdoc', function() {
 		describe('custom', function() {
 			it('should format', function() {
 				var doc = new Doc({
-					ngdoc: 'object',
+					uidoc: 'object',
 					name: 'app.common.object:myObject',
 					type: 'string',
 					returns: {type: 'type', description: 'description'}

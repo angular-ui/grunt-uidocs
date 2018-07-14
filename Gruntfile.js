@@ -37,7 +37,7 @@ module.exports = function (grunt) {
           }
         },
         scripts: ['angular.js'],
-        html5Mode: true
+        html5Mode: false
       },
       all: ['mock-app/*.js']
     },

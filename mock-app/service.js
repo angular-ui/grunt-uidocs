@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * @ngdoc service
+ * @uidoc service
  * @name rfx.rest
  * @description
  * # rest
@@ -11,7 +11,7 @@ angular.module('rfx')
   .service('rest', function () {
 
     /**
-     * @ngdoc
+     * @uidoc
      * @name rfx.rest#get
      * @methodOf rfx.rest
      *

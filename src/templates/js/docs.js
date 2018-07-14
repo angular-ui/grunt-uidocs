@@ -78,7 +78,7 @@ docsApp.directive.code = function() {
 
 
 docsApp.directive.sourceEdit = function(getEmbeddedTemplate) {
-  return NG_DOCS.editExample ? {
+  return UI_DOCS.editExample ? {
     template: '<a class="edit-example pull-right" ng-click="plunkr($event)" href>' +
       '<i class="icon-edit"></i> Edit in Plunkr</a>',
     scope: true,
@@ -121,7 +121,7 @@ docsApp.serviceFactory.loadedUrls = function($document, versionedFiles) {
   });
 
   urls.base = [];
-  angular.forEach(NG_DOCS.scripts, function(script) {
+  angular.forEach(UI_DOCS.scripts, function(script) {
     var match = urls[script.replace(/(\-\d.*)?(\.min)?\.js$/, '.js')];
     if (match) {
       urls.base.push(match);
@@ -245,14 +245,14 @@ docsApp.serviceFactory.sections = function serviceFactory() {
     }
   };
 
-  angular.forEach(NG_DOCS.pages, function(page) {
+  angular.forEach(UI_DOCS.pages, function(page) {
     var url = page.section + '/' +  page.id;
     if (page.id == 'angular.Module') {
       page.partialUrl = 'partials/api/angular.IModule.html';
     } else {
       page.partialUrl = 'partials/' + url.replace(':', '.') + '.html';
     }
-    page.url = (NG_DOCS.html5Mode ? '' : '#!/') + url;
+    page.url = (UI_DOCS.html5Mode ? '' : '#!/') + url;
     if (!sections[page.section]) { sections[page.section] = []; }
     sections[page.section].push(page);
   });
@@ -310,7 +310,7 @@ docsApp.controller.DocsController = function($scope, $location, $window, $timeou
   $scope.submitForm = function() {
     if ($scope.bestMatch) {
       var url =  $scope.bestMatch.page.url;
-      $location.path(NG_DOCS.html5Mode ? url : url.substring(1));
+      $location.path(UI_DOCS.html5Mode ? url : url.substring(1));
     }
   };
 
@@ -321,6 +321,7 @@ docsApp.controller.DocsController = function($scope, $location, $window, $timeou
     loadDisqus(currentPageId);
   };
 
+  $scope.adsConfig = ADS_CONFIG;
   $scope.versionedFiles = VERSIONED_FILES;
 
   $scope.setVersion = function (version) {
@@ -348,7 +349,7 @@ docsApp.controller.DocsController = function($scope, $location, $window, $timeou
   $scope.changeVersion = function(version) {
     $scope.setVersion(version);
     // $timeout(function() {
-      $location.path(NG_DOCS.startPage);
+      $location.path(UI_DOCS.startPage);
     // }, 0);
   };
 
@@ -359,8 +360,8 @@ docsApp.controller.DocsController = function($scope, $location, $window, $timeou
    ***********************************/
 
   $scope.sections = {};
-  angular.forEach(NG_DOCS.sections, function(section, url) {
-    $scope.sections[(NG_DOCS.html5Mode ? '' : '#!/') + url] = section;
+  angular.forEach(UI_DOCS.sections, function(section, url) {
+    $scope.sections[(UI_DOCS.html5Mode ? '' : '#!/') + url] = section;
   });
   $scope.$watch(function docsPathWatch() {return $location.path(); }, function docsPathWatchAction(path) {
 
@@ -384,7 +385,7 @@ docsApp.controller.DocsController = function($scope, $location, $window, $timeou
       var parts = path.split('/'),
         sectionId = parts[1],
         partialId = parts[2],
-        page, sectionName = $scope.sections[(NG_DOCS.html5Mode ? '' : '#!/') + sectionId];
+        page, sectionName = $scope.sections[(UI_DOCS.html5Mode ? '' : '#!/') + sectionId];
 
       if (!sectionName) { return; }
 
@@ -400,7 +401,7 @@ docsApp.controller.DocsController = function($scope, $location, $window, $timeou
 
       // Update breadcrumbs
       var breadcrumb = $scope.breadcrumb = [],
-        match, sectionPath = (NG_DOCS.html5Mode ? '' : '#!/') +  sectionId;
+        match, sectionPath = (UI_DOCS.html5Mode ? '' : '#!/') +  sectionId;
 
       if (partialId) {
         breadcrumb.push({ name: sectionName, url: sectionPath });
@@ -467,7 +468,7 @@ docsApp.controller.DocsController = function($scope, $location, $window, $timeou
   $scope.loading = 0;
 
   if (!$location.path() || INDEX_PATH.test($location.path())) {
-    $location.path(NG_DOCS.startPage).replace();
+    $location.path(UI_DOCS.startPage).replace();
   }
 
   /**********************************
@@ -495,7 +496,7 @@ docsApp.controller.DocsController = function($scope, $location, $window, $timeou
 
       if (page.id == 'index') {
         //skip
-      } else if (!NG_DOCS.apis[section]) {
+      } else if (!UI_DOCS.apis[section]) {
         otherPages.push(page);
       } else if (id == 'angular.Module') {
         module('ng', section).types.push(page);
@@ -549,7 +550,7 @@ docsApp.controller.DocsController = function($scope, $location, $window, $timeou
       if (!module) {
         module = cache[name] = {
           name: name,
-          url: (NG_DOCS.html5Mode ? '' : '#!/') + section + '/' + name,
+          url: (UI_DOCS.html5Mode ? '' : '#!/') + section + '/' + name,
           globals: [],
           components: [],
           controllers: [],
@@ -598,12 +599,12 @@ docsApp.controller.DocsController = function($scope, $location, $window, $timeou
 
 
   function loadDisqus(currentPageId) {
-    if (!NG_DOCS.discussions) { return; }
+    if (!UI_DOCS.discussions) { return; }
     // http://docs.disqus.com/help/2/
-    window.disqus_shortname = NG_DOCS.discussions.shortName;
+    window.disqus_shortname = UI_DOCS.discussions.shortName;
     window.disqus_identifier = currentPageId;
-    window.disqus_url = NG_DOCS.discussions.url + currentPageId;
-    window.disqus_developer = NG_DOCS.discussions.dev;
+    window.disqus_url = UI_DOCS.discussions.url + currentPageId;
+    window.disqus_developer = UI_DOCS.discussions.dev;
 
     // http://docs.disqus.com/developers/universal/
     (function() {
@@ -631,7 +632,7 @@ function module(name, modules, optional) {
 
 module('docsApp', ['bootstrap', 'bootstrapPrettify'], ['ngAnimate']).
   config(function($locationProvider) {
-    if (NG_DOCS.html5Mode) {
+    if (UI_DOCS.html5Mode) {
       $locationProvider.html5Mode(true).hashPrefix('!');
     }
   }).

@@ -287,17 +287,17 @@
 
         <div id="loading" ng-show="loading">Loading...</div>
 
-        <div class="row text-center">
+        <div class="row text-center" ng-if="adsConfig">
           <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
           <ins class="adsbygoogle"
                style="display:block"
-               data-ad-client="ca-pub-6177019177103290"
-               data-ad-slot="3609320072"
+               ng-attr-data-ad-client="{{adsConfig.client}}"
+               ng-attr-data-ad-slot="{{adsConfig.slot}}"
                data-ad-format="auto"></ins>
           <script>
           (adsbygoogle = window.adsbygoogle || []).push({});
           </script>
-          <small><a href="" data-popover data-content="Advertising covers the costs of running this site, and funds extra support and development.">Why does this site have ads?</a></small>
+          <small><a href="" title="Advertising covers the costs of running this site, and funds extra support and development.">Why does this site have ads?</a></small>
         </div>
 
         <br>

@@ -8,8 +8,8 @@
 
 NOTE: this plugin requires Grunt >=0.4.x and is NOT YET RELEASED.
 
-ATTENTION: grunt-ngdocs 0.2+ is for angularjs 1.2+
-grunt-ngdocs 0.2.5 supports angularjs 1.3+ too.
+ATTENTION: grunt-uidocs 0.2+ is for angularjs 1.2+
+grunt-uidocs 0.2.5 supports angularjs 1.3+ too.
 Please include angular.js with the scripts option
 
 ## Getting Started
@@ -23,7 +23,7 @@ Once that's done, add this line to your project's Gruntfile:
 grunt.loadNpmTasks('grunt-uidocs');
 ```
 
-A full working example can be found at [https://github.com/m7r/grunt-ngdocs-example]()
+A full working example can be found at [https://github.com/m7r/grunt-uidocs-example]()
 
 ## Config
 Inside your `Gruntfile.js` file, add a section named *uidocs*.
@@ -248,13 +248,13 @@ After that, only index.html, js/docs-setup.js, and the partials will be overwrit
 
 Partials that are no longer needed will not be deleted. Use, for example, the grunt-contrib-clean task to clean the docs folder before creating a distribution build.
 
-After an update of grunt-ngdocs you should clean the docs folder too.
+After an update of grunt-uidocs you should clean the docs folder too.
 
 A doc comment looks like this:
 
 ```js
 /**
- * @ngdoc directive
+ * @uidoc directive
  * @name rfx.directive:rAutogrow
  * @element textarea
  * @function
