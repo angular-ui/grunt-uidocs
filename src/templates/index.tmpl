@@ -172,7 +172,7 @@
 
     <div class="row">
       <div class="col-xs-4 col-sm-3">
-        <div ng-show="versionedFiles">
+        <div ng-if="versionedFiles && versionedFiles.versions">
           <select class="form-control" name="docsVersion" aria-label="Docs Version" ng-model="currentVersion" ng-init="currentVersion = versionedFiles.default" ng-options="key as key for (key, value) in versionedFiles.versions"  ng-change="changeVersion(currentVersion)"></select>
           <div id="versionedFiles">
             <script ng-repeat="s in versionedScripts" ng-src="{{ s.src }}"></script>
@@ -287,20 +287,22 @@
 
         <div id="loading" ng-show="loading">Loading...</div>
 
-        <div class="row text-center" ng-if="adsConfig">
-          <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-          <ins class="adsbygoogle"
-               style="display:block"
-               ng-attr-data-ad-client="{{adsConfig.client}}"
-               ng-attr-data-ad-slot="{{adsConfig.slot}}"
-               data-ad-format="auto"></ins>
-          <script>
-          (adsbygoogle = window.adsbygoogle || []).push({});
-          </script>
-          <small><a href="" title="Advertising covers the costs of running this site, and funds extra support and development.">Why does this site have ads?</a></small>
-        </div>
+        <div ng-if="adsConfig">
+          <div class="row text-center">
+            <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 ng-attr-data-ad-client="{{adsConfig.client}}"
+                 ng-attr-data-ad-slot="{{adsConfig.slot}}"
+                 data-ad-format="auto"></ins>
+            <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+            <small><a href="" title="Advertising covers the costs of running this site, and funds extra support and development.">Why does this site have ads?</a></small>
+          </div>
 
-        <br>
+          <br>
+        </div>
 
         <div ng-hide="loading" ng-include src="currentPage.partialUrl" onload="afterPartialLoaded()" autoscroll class="content slide-reveal"></div>
 <% if (discussions) { %>

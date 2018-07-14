@@ -30,12 +30,6 @@ module.exports = function (grunt) {
     },
     uidocs: {
       options: {
-        versionedFiles: {
-          default: 'stable',
-          versions: {
-            stable: []
-          }
-        },
         scripts: ['angular.js'],
         html5Mode: false
       },
