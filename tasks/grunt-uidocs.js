@@ -1,13 +1,13 @@
 /*
- * grunt-ngdocs
- * https://github.com/m7r/grunt-ngdocs
+ * grunt-uidocs
+ * https://github.com/angular-ui/grunt-uidocs
  *
- * Copyright (c) 2013 m7r
+ * Copyright (c) 2013-2018 m7r and Marcelo Sauerbrunn Portugal
  * Licensed under the MIT license.
  */
 
 var reader = require('../src/reader.js'),
-    ngdoc = require('../src/ngdoc.js'),
+    uidoc = require('../src/uidoc.js'),
     template = require('lodash/template'),
     flatten = require('lodash/flatten'),
     map = require('lodash/map'),
@@ -28,7 +28,7 @@ module.exports = function(grunt) {
   var unittest = {},
       templates = path.resolve(__dirname, '../src/templates');
 
-  grunt.registerMultiTask('ngdocs', 'build documentation', function() {
+  grunt.registerMultiTask('uidocs', 'build documentation', function() {
     var start = now(),
         pkg = getPackage(),
         done = this.async(),
@@ -126,9 +126,9 @@ module.exports = function(grunt) {
       });
     });
 
-    ngdoc.merge(reader.docs);
+    uidoc.merge(reader.docs);
 
-    grunt.file.write(path.join(options.scenarioDest, 'doc-' + section + '.spec.js'), ngdoc.scenarios(reader.docs, options.testingUrlPrefix));
+    grunt.file.write(path.join(options.scenarioDest, 'doc-' + section + '.spec.js'), uidoc.scenarios(reader.docs, options.testingUrlPrefix));
 
     reader.docs.forEach(function(doc){
       // this hack is here because on OSX angular.module and angular.Module map to the same file.
@@ -137,9 +137,9 @@ module.exports = function(grunt) {
       grunt.file.write(file, doc.html());
     });
 
-    ngdoc.checkBrokenLinks(reader.docs, setup.apis, options);
+    uidoc.checkBrokenLinks(reader.docs, setup.apis, options);
 
-    setup.pages = union(setup.pages, ngdoc.metadata(reader.docs));
+    setup.pages = union(setup.pages, uidoc.metadata(reader.docs));
 
     if (options.navTemplate) {
       options.navContent = grunt.file.read(options.navTemplate);
@@ -219,7 +219,7 @@ module.exports = function(grunt) {
       // read setup from file
       data = grunt.file.read(file);
       vm.runInNewContext(data, context, file);
-      setup = context.NG_DOCS;
+      setup = context.UI_DOCS;
       // keep only pages from other build tasks
       setup.pages = setup.pages.filter(function(p) {return p.section !== section;});
     } else {
@@ -237,6 +237,7 @@ module.exports = function(grunt) {
         content, data = {
           scripts: options.scripts,
           hiddenScripts: options.hiddenScripts,
+          adsConfig: options.adsConfig,
           versionedFiles: options.versionedFiles,
           styles: options.styles,
           sections: Object.keys(setup.sections).join('|'),
@@ -263,7 +264,8 @@ module.exports = function(grunt) {
     setup.startPage = options.startPage;
     setup.discussions = options.discussions;
     setup.scripts = options.scripts.map(function(url) { return path.basename(url); });
-    grunt.file.write(setup.__file, 'NG_DOCS=' + JSON.stringify(setup, replacer, 2) + '; '
+    grunt.file.write(setup.__file, 'UI_DOCS=' + JSON.stringify(setup, replacer, 2) + '; '
+      + 'ADS_CONFIG=' + JSON.stringify(options.adsConfig, replacer, 2) + '; '
       + 'VERSIONED_FILES=' + JSON.stringify(options.versionedFiles, replacer, 2) + '; ');
   }
 
@@ -301,7 +303,7 @@ module.exports = function(grunt) {
         }
       }
     }) + '())</script>';
-    // Inject the html into the ngdoc file
+    // Inject the html into the uidoc file
     var patchedIndex = grunt.file.read(indexFile).replace(/<body[^>]*>/i, function(match) {
       return match + html;
     });

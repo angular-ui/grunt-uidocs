@@ -8,13 +8,15 @@
     "url": "https://github.com/angular-ui/grunt-uidocs.git"
   },
   "scripts": {
+    "start": "grunt clean uidocs connect",
     "test": "grunt test"
   },
   "keywords": [
     "gruntplugin",
     "angular",
     "grunt",
-    "ngdocs",
+    "uidocs",
+    "uidocs",
     "documention"
   ],
   "license": "MIT",
@@ -26,11 +28,13 @@
     "upath": "^1.1.0"
   },
   "peerDependencies": {
+    "angular": ">=1.6.0",
     "grunt": ">=0.4.0"
   },
   "devDependencies": {
     "angular": "^1.7.2",
     "grunt": "^1.0.3",
+    "grunt-cli": "^1.2.0",
     "grunt-contrib-clean": "^1.1.0",
     "grunt-contrib-connect": "^1.0.2",
     "grunt-contrib-watch": "^1.1.0",

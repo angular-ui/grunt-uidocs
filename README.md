@@ -1,11 +1,16 @@
 # grunt-uidocs
+
+[![Build](https://travis-ci.org/angular-ui/grunt-uidocs.svg?branch=master)](https://travis-ci.org/angular-ui/grunt-uidocs)
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/angular-ui/grunt-uidocs/blob/master/LICENSE)
+[![GitHub issues](https://img.shields.io/github/issues/angular-ui/grunt-uidocs.svg?style=flat)](https://github.com/angular-ui/grunt-uidocs/issues)
+
 > Grunt plugin to create a documentation like [AngularJS](http://docs.angularjs.org). Forked from [grunt-ngdocs](https://github.com/m7r/grunt-ngdocs).
 
 NOTE: this plugin requires Grunt >=0.4.x and is NOT YET RELEASED.
 
-ATTENTION: grunt-ngdocs 0.2+ is for angularjs 1.2+
-grunt-ngdocs 0.2.5 supports angularjs 1.3+ too
-Please include angular.js and angular-animate.js with the scripts option
+ATTENTION: grunt-uidocs 0.2+ is for angularjs 1.2+
+grunt-uidocs 0.2.5 supports angularjs 1.3+ too.
+Please include angular.js with the scripts option
 
 ## Getting Started
 From the same directory as your project's Gruntfile and package.json, install this plugin with the following command:
@@ -18,14 +23,14 @@ Once that's done, add this line to your project's Gruntfile:
 grunt.loadNpmTasks('grunt-uidocs');
 ```
 
-A full working example can be found at [https://github.com/m7r/grunt-ngdocs-example]()
+A full working example can be found at [https://github.com/m7r/grunt-uidocs-example]()
 
 ## Config
-Inside your `Gruntfile.js` file, add a section named *ngdocs*.
+Inside your `Gruntfile.js` file, add a section named *uidocs*.
 Here's a simple example:
 
 ```js
-ngdocs: {
+uidocs: {
   all: ['src/**/*.js']
 }
 ```
@@ -33,7 +38,7 @@ ngdocs: {
 And with many options:
 
 ```js
-ngdocs: {
+uidocs: {
   options: {
     dest: 'docs',
     scripts: ['../app.min.js'],
@@ -55,7 +60,7 @@ ngdocs: {
     }
   },
   tutorial: {
-    src: ['content/tutorial/*.ngdoc'],
+    src: ['content/tutorial/*.md'],
     title: 'Tutorial'
   },
   api: {
@@ -93,11 +98,11 @@ Folder relative to your Gruntfile where the documentation should be built.
 #### scripts
 [default] ['angular.js']
 
-Set which angular.js file or addional custom js files are loaded to the app. This allows the live examples to use custom directives, services, etc. The documentation app works with angular.js 1.2+ and 1.3+. If you include your own angular.js include angular-animate.js too.
+Set which angular.js file or additional custom js files are loaded to the app. This allows the live examples to use custom directives, services, etc. The documentation app works with angular.js >= 1.6.0.
 
 Possible values:
 
-  - ['angular.js'] use angular and angular-animate 1.2.16 delivered with grunt-ngdocs
+  - ['angular.js'] use angular 1.7.2 delivered with grunt-uidocs
   - ['path/to/file.js'] file will be copied into the docs, into a `grunt-scripts` folder
   - ['http://example.com/file.js', 'https://example.com/file.js', '//example.com/file.js'] reference remote files (eg from a CDN)
   - ['../app.js'] reference file relative to the dest folder
@@ -127,7 +132,7 @@ Set first page to open.
 #### html5Mode
 [default] false
 
-Whether or not to enable `html5Mode` in the docs application.  If true, then links will be absolute.  If false, they will be prefixed by `#/`.
+Whether or not to enable `html5Mode` in the docs application.  If true, then links will be absolute.  If false, they will be prefixed by `#!/`.
 
 #### bestMatch
 [default] false
@@ -243,13 +248,13 @@ After that, only index.html, js/docs-setup.js, and the partials will be overwrit
 
 Partials that are no longer needed will not be deleted. Use, for example, the grunt-contrib-clean task to clean the docs folder before creating a distribution build.
 
-After an update of grunt-ngdocs you should clean the docs folder too.
+After an update of grunt-uidocs you should clean the docs folder too.
 
 A doc comment looks like this:
 
 ```js
 /**
- * @ngdoc directive
+ * @uidoc directive
  * @name rfx.directive:rAutogrow
  * @element textarea
  * @function

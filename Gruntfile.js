@@ -28,7 +28,7 @@ module.exports = function (grunt) {
       },
       all: ['spec/']
     },
-    ngdocs: {
+    uidocs: {
       options: {
         versionedFiles: {
           default: 'stable',

@@ -108,7 +108,7 @@ Doc.prototype = {
     this.methods.forEach(function(method) {
       extractWords(method.text || method.description || '');
     });
-    if (this.ngdoc === 'error') {
+    if (this.uidoc === 'error') {
       words.push(this.getMinerrNamespace());
       words.push(this.getMinerrCode());
     }
@@ -126,17 +126,17 @@ Doc.prototype = {
   },
 
   getMinerrNamespace: function () {
-    if (this.ngdoc !== 'error') {
-      throw new Error('Tried to get the minErr namespace, but @ngdoc ' +
-        this.ngdoc + ' was supplied. It should be @ngdoc error');
+    if (this.uidoc !== 'error') {
+      throw new Error('Tried to get the minErr namespace, but @uidoc ' +
+        this.uidoc + ' was supplied. It should be @uidoc error');
     }
     return this.name.split(':')[0];
   },
 
   getMinerrCode: function () {
-    if (this.ngdoc !== 'error') {
-      throw new Error('Tried to get the minErr error code, but @ngdoc ' +
-        this.ngdoc + ' was supplied. It should be @ngdoc error');
+    if (this.uidoc !== 'error') {
+      throw new Error('Tried to get the minErr error code, but @uidoc ' +
+        this.uidoc + ' was supplied. It should be @uidoc error');
     }
     return this.name.split(':')[1];
   },
@@ -423,8 +423,8 @@ Doc.prototype = {
     }
 
     this.id = this.id || // if we have an id just use it
-      (this.ngdoc === 'error' ? this.name : '') ||
-      (((this.file||'').match(/.*(\/|\\)([^(\/|\\)]*)\.ngdoc/)||{})[2]) || // try to extract it from file name
+      (this.uidoc === 'error' ? this.name : '') ||
+      (((this.file||'').match(/.*(\/|\\)([^(\/|\\)]*)\.uidoc/)||{})[2]) || // try to extract it from file name
       this.name; // default to name
     this.description = this.markdown(this.description);
     this.example = this.markdown(this.example);
@@ -542,14 +542,14 @@ Doc.prototype = {
 
     dom.h(title(this), function() {
       notice('deprecated', 'Deprecated API', self.deprecated);
-      if (self.ngdoc === 'error') {
+      if (self.uidoc === 'error') {
         minerrMsg = lookupMinerrMsg(self);
         dom.tag('pre', {
           class:'minerr-errmsg',
           'error-display': minerrMsg.replace(/"/g, '&quot;')
         }, minerrMsg);
       }
-      if (self.ngdoc != 'overview') {
+      if (self.uidoc != 'overview') {
         dom.h('Description', self.description, dom.html);
       }
       dom.h('Dependencies', self.requires, function(require){
@@ -576,8 +576,8 @@ Doc.prototype = {
         dom.html(require.text);
       });
 
-      (self['html_usage_' + self.ngdoc] || function() {
-        throw new Error("Don't know how to format @ngdoc: " + self.ngdoc);
+      (self['html_usage_' + self.uidoc] || function() {
+        throw new Error("Don't know how to format @uidoc: " + self.uidoc);
       }).call(self, dom);
 
       dom.h('Example', self.example, dom.html);
@@ -1189,7 +1189,7 @@ function title(doc) {
   if (!doc.name) return doc.name;
   var match,
       module = doc.moduleName,
-      overview = doc.ngdoc == 'overview',
+      overview = doc.uidoc == 'overview',
       text = doc.name;
 
   var makeTitle = function (name, type, componentType, component) {
@@ -1216,7 +1216,7 @@ function title(doc) {
     };
   };
 
-  if (doc.ngdoc === 'error') {
+  if (doc.uidoc === 'error') {
     return makeTitle(doc.fullName, 'error', 'component', doc.getMinerrNamespace());
   } else if (text == 'angular.Module') {
     return makeTitle('Module', 'Type', 'module', 'ng');
@@ -1235,8 +1235,8 @@ function title(doc) {
   } else if (match = text.match(MODULE_DIRECTIVE_INPUT)) {
     return makeTitle('input [' + match[2] + ']', 'directive', 'module', match[1]);
   } else if (match = text.match(MODULE_CUSTOM)) {
-    return makeTitle(match[3], doc.ngdoc || match[2], 'module', match[1]);
-  } else if (match = text.match(MODULE_TYPE) && doc.ngdoc === 'type') {
+    return makeTitle(match[3], doc.uidoc || match[2], 'module', match[1]);
+  } else if (match = text.match(MODULE_TYPE) && doc.uidoc === 'type') {
     return makeTitle(match[2], 'type', 'module', module || match[1]);
   } else if (match = text.match(MODULE_SERVICE)) {
     if (overview) {
@@ -1307,7 +1307,7 @@ function metadata(docs) {
       id: doc.id,
       name: title(doc),
       shortName: shortName,
-      type: doc.ngdoc,
+      type: doc.uidoc,
       moduleName: doc.moduleName,
       shortDescription: doc.shortDescription(),
       keywords: doc.keywords(),
