@@ -6,8 +6,8 @@
  * Licensed under the MIT license.
  */
 
-const reader = require('../src/reader.js');
-const uidoc = require('../src/uidoc.js');
+const reader = require('./lib/reader.js');
+const uidoc = require('./lib/uidoc.js');
 const template = require('lodash/template');
 const flatten = require('lodash/flatten');
 const map = require('lodash/map');

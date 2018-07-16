@@ -1,7 +1,7 @@
-var uidoc = require('../src/uidoc.js');
-var DOM = require('../src/dom.js').DOM;
+const uidoc = require('../tasks/lib/uidoc.js');
+const DOM = require('../tasks/lib/dom.js').DOM;
 
-describe('uidoc', function() {
+describe('uidoc', () => {
 	var Doc = uidoc.Doc,
 		dom;
 
@@ -15,21 +15,21 @@ describe('uidoc', function() {
 		});
 	});
 
-	describe('Doc', function() {
-		describe('metadata', function() {
-			it('should find keywords and filter ignored words', function() {
+	describe('Doc', () => {
+		describe('metadata', () => {
+			it('should find keywords and filter ignored words', () => {
 				expect(new Doc('\nHello: World! @ignore. $abc').keywords()).toEqual('$abc hello world');
 				expect(new Doc('The `ng:class-odd` and').keywords()).toEqual('ng:class-odd');
 			});
 
-			it('should get property and methods', function() {
+			it('should get property and methods', () => {
 				var doc = new Doc('Document');
 				doc.properties.push(new Doc('Proprety'));
 				doc.properties.push(new Doc('Method'));
 				expect(doc.keywords()).toEqual('document method proprety');
 			});
 
-			it('should have shortName', function() {
+			it('should have shortName', () => {
 				var d1 = new Doc('@name a.b.c').parse();
 				var d2 = new Doc('@name a.b.ng-c').parse();
 				var d3 = new Doc('@name some text: more text').parse();
@@ -38,7 +38,7 @@ describe('uidoc', function() {
 				expect(uidoc.metadata([d3])[0].shortName).toEqual('more text');
 			});
 
-			it('should support module names with dots', function() {
+			it('should support module names with dots', () => {
 				var d1 = new Doc('@name a.b.c').parse();
 				var d2 = new Doc('@name a.b.ng-c').parse();
 				var d3 = new Doc('@name some.more.text: more text').parse();
@@ -47,7 +47,7 @@ describe('uidoc', function() {
 				expect(uidoc.metadata([d3])[0].moduleName).toEqual('some.more');
 			});
 
-			it('should allow to overwrite module name', function() {
+			it('should allow to overwrite module name', () => {
 				var d1 = new Doc('@name a.b.c').parse();
 				var d2 = new Doc('@name a.b.c\n@module d.e.f').parse();
 				expect(uidoc.metadata([d1])[0].moduleName).toEqual('a.b');
@@ -56,8 +56,8 @@ describe('uidoc', function() {
 			});
 		});
 
-		describe('parse', function() {
-			it('should convert @names into properties', function() {
+		describe('parse', () => {
+			it('should convert @names into properties', () => {
 				var doc = new Doc('\n@name name\n@desc\ndesc\ndesc2\n@dep\n');
 				doc.parse();
 				expect(doc.name).toEqual('name');
@@ -65,7 +65,7 @@ describe('uidoc', function() {
 				expect(doc.dep).toEqual('');
 			});
 
-			it('should parse parameters', function() {
+			it('should parse parameters', () => {
 				var doc = new Doc(
 					'@name a\n' +
 					'@param {*} a short\n' +
@@ -84,7 +84,7 @@ describe('uidoc', function() {
 				]);
 			});
 
-			it('should parse return', function() {
+			it('should parse return', () => {
 				var doc = new Doc('@name a\n@returns {Type} text *bold*.');
 				doc.parse();
 				expect(doc.returns).toEqual({
@@ -93,76 +93,76 @@ describe('uidoc', function() {
 				});
 			});
 
-			it('should parse filename', function() {
+			it('should parse filename', () => {
 				var doc = new Doc('@name friendly name', 'docs/a.b.uidoc', 1);
 				doc.parse(0);
 				expect(doc.id).toEqual('a.b');
 				expect(doc.name).toEqual('friendly name');
 			});
 
-			it('should store all links', function() {
+			it('should store all links', () => {
 				var doc = new Doc('@name a\n@description {@link api/angular.link}');
 				doc.parse();
 
 				expect(doc.links).toContain('api/angular.link');
 			});
 
-			it('should correctly parse capitalized service names', function() {
+			it('should correctly parse capitalized service names', () => {
 				var doc = new Doc('@uidoc service\n@name my.module.Service');
 				doc.parse();
 				expect(uidoc.metadata([doc])[0].shortName).toEqual('my.module.Service');
 				expect(uidoc.metadata([doc])[0].moduleName).toEqual('my.module');
 			});
 
-			describe('convertUrlToAbsolute', function() {
+			describe('convertUrlToAbsolute', () => {
 				var doc;
 
-				beforeEach(function() {
+				beforeEach(() => {
 					doc = new Doc({section: 'section'});
 				});
 
-				it('should not change absolute url', function() {
+				it('should not change absolute url', () => {
 					expect(doc.convertUrlToAbsolute('guide/index')).toEqual('#!/guide/index');
 				});
 
-				it('should prepend current section to relative url', function() {
+				it('should prepend current section to relative url', () => {
 					expect(doc.convertUrlToAbsolute('angular.widget')).toEqual('#!/section/angular.widget');
 				});
 
-				it('should change id to index if not specified', function() {
+				it('should change id to index if not specified', () => {
 					expect(doc.convertUrlToAbsolute('guide/')).toEqual('#!/guide/index');
 				});
 
-				it('should not change external url', function() {
+				it('should not change external url', () => {
 					expect(doc.convertUrlToAbsolute('https://github.com/angular-ui/grunt-uidocs-generator')).toEqual('https://github.com/angular-ui/grunt-uidocs-generator');
 				});
 			});
 
-			describe('convertUrlToAbsolute HTML5 mode', function() {
+			describe('convertUrlToAbsolute HTML5 mode', () => {
 				var doc;
 
-				beforeEach(function() {
+				beforeEach(() => {
 					doc = new Doc({section: 'section'}, 'a', 1, 1, {html5Mode: true});
 				});
 
-				it('should not change absolute url', function() {
+				it('should not change absolute url', () => {
 					expect(doc.convertUrlToAbsolute('guide/index')).toEqual('guide/index');
 				});
 
-				it('should prepend current section to relative url', function() {
+				it('should prepend current section to relative url', () => {
 					expect(doc.convertUrlToAbsolute('angular.widget')).toEqual('section/angular.widget');
 				});
 
-				it('should change id to index if not specified', function() {
+				it('should change id to index if not specified', () => {
 					expect(doc.convertUrlToAbsolute('guide/')).toEqual('guide/index');
 				});
 
-				it('should not change external url', function() {
+				it('should not change external url', () => {
 					expect(doc.convertUrlToAbsolute('https://github.com/angular-ui/grunt-uidocs-generator')).toEqual('https://github.com/angular-ui/grunt-uidocs-generator');
 				});
 			});
 
-			describe('sorting', function() {
+			describe('sorting', () => {
 				function property(name) {
 					return function(obj) {
 						return obj[name];
@@ -172,7 +172,7 @@ describe('uidoc', function() {
 				var dev_guide_overview = new Doc({uidoc: 'overview', id: 'dev_guide.overview', text: ''});
 				var dev_guide_bootstrap = new Doc({uidoc: 'function', id: 'dev_guide.bootstrap', text: ''});
 
-				it('should put angular.fn() in front of dev_guide.overview, etc', function() {
+				it('should put angular.fn() in front of dev_guide.overview, etc', () => {
 					expect(uidoc.metadata([dev_guide_overview, dev_guide_bootstrap]).map(property('id')))
 						.toEqual(['dev_guide.overview', 'dev_guide.bootstrap']);
 				});
@@ -180,8 +180,8 @@ describe('uidoc', function() {
 		});
 	});
 
-	describe('markdown', function() {
-		it('should not replace anything in <pre>, but escape the html escape the content', function() {
+	describe('markdown', () => {
+		it('should not replace anything in <pre>, but escape the html escape the content', () => {
 			expect(new Doc().markdown('bah x\n<pre>\n<b>angular</b>.k\n</pre>\n asdf x')).toEqual(
 				'<div class="docs-page"><p>bah x\n' +
 				'<pre class="prettyprint linenums">\n' +
@@ -190,29 +190,29 @@ describe('uidoc', function() {
 				' asdf x</p>\n</div>');
 		});
 
-		it('should wrap everything inside a container tag', function() {
+		it('should wrap everything inside a container tag', () => {
 			var doc = new Doc('@name superman').parse();
 			var content = doc.markdown('hello');
 
 			expect(content).toMatch('<div class="superman-page"><p>hello</p>\n</div>');
 		});
 
-		it('should use the content before a colon as the name prefix for the className of the tag container', function() {
+		it('should use the content before a colon as the name prefix for the className of the tag container', () => {
 			var doc = new Doc('@name super: man').parse();
 			var content = doc.markdown('hello');
 
 			expect(content).toMatch('<div class="super-page super-man-page"><p>hello</p>\n</div>');
 		});
 
-		it('should replace text between two <pre></pre> tags', function() {
+		it('should replace text between two <pre></pre> tags', () => {
 			expect(new Doc().markdown('<pre>x</pre>\n# One\n<pre>b</pre>')).toMatch('</pre>\n<h1>One</h1>\n<pre');
 		});
 
-		it('should replace inline variable type hints', function() {
+		it('should replace inline variable type hints', () => {
 			expect(new Doc().markdown('{@type string}')).toMatch(/<a\s+.*?class=".*?type-hint type-hint-string.*?".*?>/);
 		});
 
-		it('should ignore nested doc widgets', function() {
+		it('should ignore nested doc widgets', () => {
 			expect(new Doc().markdown(
 				'before\n<div class="tabbable">\n' +
 				'<div class="tab-pane well" id="git-mac" ng:model="Git on Mac/Linux">' +
@@ -225,7 +225,7 @@ describe('uidoc', function() {
 				'</div></div>');
 		});
 
-		it('should unindent text before processing based on the second line', function() {
+		it('should unindent text before processing based on the second line', () => {
 			expect(new Doc().markdown('first line\n' +
 				'   second line\n\n' +
 				'       third line\n' +
@@ -237,7 +237,7 @@ describe('uidoc', function() {
 				'</div>');
 		});
 
-		it('should unindent text before processing based on the first line', function() {
+		it('should unindent text before processing based on the first line', () => {
 			expect(new Doc().markdown('   first line\n\n' +
 				'       second line\n' +
 				'       third line\n' +
@@ -248,22 +248,22 @@ describe('uidoc', function() {
 				' fourth line</code></pre><p>fifth line</p>\n</div>');
 		});
 
-		describe('inline annotations', function() {
-			it('should convert inline docs annotations into proper HTML', function() {
+		describe('inline annotations', () => {
+			it('should convert inline docs annotations into proper HTML', () => {
 				expect(new Doc().markdown(
 					"<pre>\n//!annotate supertext\n<br />\n</pre>"
 					)
 				).toContain('data-popover data-content="supertext"')
 			});
 
-			it('should allow for a custom regular expression for matching', function() {
+			it('should allow for a custom regular expression for matching', () => {
 				expect(new Doc().markdown(
 					"<pre>\n//!annotate=\"soon\" supertext\n<p>soon</p>\n</pre>"
 					)
 				).toContain('data-popover data-content="supertext" data-title="Info">soon</div>')
 			});
 
-			it('should allow for a custom title to be set', function() {
+			it('should allow for a custom title to be set', () => {
 				expect(new Doc().markdown(
 					"<pre>\n//!annotate=\"soon\" coming soon|supertext\n<p>soon</p>\n</pre>"
 					)
@@ -272,19 +272,19 @@ describe('uidoc', function() {
 		});
 	});
 
-	describe('trim', function() {
+	describe('trim', () => {
 		var trim = uidoc.trim;
-		it('should remove leading/trailing space', function() {
+		it('should remove leading/trailing space', () => {
 			expect(trim('  \nabc\n  ')).toEqual('abc');
 		});
 
-		it('should remove leading space on every line', function() {
+		it('should remove leading space on every line', () => {
 			expect(trim('\n 1\n  2\n   3\n')).toEqual('1\n 2\n  3');
 		});
 	});
 
-	describe('merge', function() {
-		it('should merge child with parent', function() {
+	describe('merge', () => {
+		it('should merge child with parent', () => {
 			var parent = new Doc({id: 'ng.abc', name: 'ng.abc', section: 'api'});
 			var methodA = new Doc({name: 'methodA', methodOf: 'ng.abc', section: 'api'});
 			var methodB = new Doc({name: 'methodB', methodOf: 'ng.abc', section: 'api'});
@@ -302,17 +302,17 @@ describe('uidoc', function() {
 		});
 	});
 
-	describe('checkBrokenLinks', function() {
+	describe('checkBrokenLinks', () => {
 		var docs, apis = {'api': true};
 
-		beforeEach(function() {
+		beforeEach(() => {
 			spyOn(console, 'log');
 			docs = [new Doc({section: 'api', id: 'fake.id1', anchors: ['one']}),
 				new Doc({section: 'api', id: 'fake.id2'}),
 				new Doc({section: 'api', id: 'fake.id3'})];
 		});
 
-		it('should log warning when a linked page does not exist', function() {
+		it('should log warning when a linked page does not exist', () => {
 			docs.push(new Doc({section: 'api', id: 'with-broken.link', links: ['non-existing-link']}))
 			uidoc.checkBrokenLinks(docs, apis);
 			expect(console.log).toHaveBeenCalled();
@@ -322,7 +322,7 @@ describe('uidoc', function() {
 			expect(warningMsg).toContain('api/with-broken.link');
 		});
 
-		it('should log warning when a linked anchor does not exist', function() {
+		it('should log warning when a linked anchor does not exist', () => {
 			docs.push(new Doc({section: 'api', id: 'with-broken.link', links: ['api/fake.id1#non-existing']}))
 			uidoc.checkBrokenLinks(docs, apis);
 			expect(console.log).toHaveBeenCalled();
@@ -335,9 +335,9 @@ describe('uidoc', function() {
 
 	////////////////////////////////////////
 
-	describe('TAG', function() {
-		describe('@param', function() {
-			it('should parse with no default', function() {
+	describe('TAG', () => {
+		describe('@param', () => {
+			it('should parse with no default', () => {
 				var doc = new Doc('@name a\n@param {(number|string)} number Number \n to format.');
 				doc.parse();
 				expect(doc.param).toEqual([{
@@ -349,7 +349,7 @@ describe('uidoc', function() {
 				}]);
 			});
 
-			it('should parse with default and optional', function() {
+			it('should parse with default and optional', () => {
 				var doc = new Doc('@name a\n@param {(number|string)=} [fractionSize=2] desc');
 				doc.parse();
 				expect(doc.param).toEqual([{
@@ -362,8 +362,8 @@ describe('uidoc', function() {
 			});
 		});
 
-		describe('@requires', function() {
-			it('should parse more @requires tag into array', function() {
+		describe('@requires', () => {
+			it('should parse more @requires tag into array', () => {
 				var doc = new Doc('@section api\n@name a\n@requires $service for \n`A`\n@requires $another for `B`',
 					'a', 1, 1, {html5Mode: true});
 				doc.uidoc = 'service';
@@ -377,7 +377,7 @@ describe('uidoc', function() {
 				expect(doc.html()).toContain('<p>for <code>B</code></p>');
 			});
 
-			it('should parse {@link} into external links', function() {
+			it('should parse {@link} into external links', () => {
 				var doc = new Doc('@uidoc overview\n' +
 					'@name a\n' +
 					'@requires {@link https://github.com/angular-ui/ui-router}\n' +
@@ -397,8 +397,8 @@ describe('uidoc', function() {
 			});
 		});
 
-		describe('@scope', function() {
-			it('should state the new scope will be created', function() {
+		describe('@scope', () => {
+			it('should state the new scope will be created', () => {
 				var doc = new Doc('@name a\n@scope');
 				doc.uidoc = 'directive';
 				doc.parse();
@@ -407,8 +407,8 @@ describe('uidoc', function() {
 			});
 		});
 
-		describe('@priority', function() {
-			it('should state the priority', function() {
+		describe('@priority', () => {
+			it('should state the priority', () => {
 				var doc = new Doc('@name a\n@priority 123');
 				doc.uidoc = 'directive';
 				doc.parse();
@@ -417,35 +417,35 @@ describe('uidoc', function() {
 			});
 		});
 
-		describe('@property', function() {
-			it('should parse @property tags into array', function() {
+		describe('@property', () => {
+			it('should parse @property tags into array', () => {
 				var doc = new Doc("@name a\n@property {type} name1 desc\n@property {type} name2 desc");
 				doc.parse();
 				expect(doc.properties.length).toEqual(2);
 			});
 
-			it('should not parse @property without a type', function() {
+			it('should not parse @property without a type', () => {
 				var doc = new Doc("@property fake", 'test.js', '44');
-				expect(function() {
+				expect(() => {
 					doc.parse();
 				}).toThrow(new Error("Not a valid 'property' format: fake (found in: test.js:44)"));
 			});
 
-			it('should parse @property with type', function() {
+			it('should parse @property with type', () => {
 				var doc = new Doc("@name a\n@property {string} name");
 				doc.parse();
 				expect(doc.properties[0].name).toEqual('name');
 				expect(doc.properties[0].type).toEqual('string');
 			});
 
-			it('should parse @property with optional description', function() {
+			it('should parse @property with optional description', () => {
 				var doc = new Doc("@name a\n@property {string} name desc rip tion");
 				doc.parse();
 				expect(doc.properties[0].name).toEqual('name');
 				expect(doc.properties[0].description).toEqual('<div class="a-page"><p>desc rip tion</p>\n</div>');
 			});
 
-			it('should parse @property with type and description both', function() {
+			it('should parse @property with type and description both', () => {
 				var doc = new Doc("@name a\n@property {bool} name desc rip tion");
 				doc.parse();
 				expect(doc.properties[0].name).toEqual('name');
@@ -455,54 +455,54 @@ describe('uidoc', function() {
 
 		});
 
-		describe('@returns', function() {
-			it('should not parse @returns without type', function() {
+		describe('@returns', () => {
+			it('should not parse @returns without type', () => {
 				var doc = new Doc("@returns lala");
-				expect(function() {
+				expect(() => {
 					doc.parse();
 				}).toThrow();
 			});
 
-			it('should not parse @returns with invalid type', function() {
+			it('should not parse @returns with invalid type', () => {
 				var doc = new Doc("@returns {xx}x} lala", 'test.js', 34);
-				expect(function() {
+				expect(() => {
 					doc.parse();
 				}).toThrow(new Error("Not a valid 'returns' format: {xx}x} lala (found in: test.js:34)"));
 			});
 
-			it('should parse @returns with type and description', function() {
+			it('should parse @returns with type and description', () => {
 				var doc = new Doc("@name a\n@returns {string} descrip tion");
 				doc.parse();
 				expect(doc.returns).toEqual({type: 'string', description: '<div class="a-page"><p>descrip tion</p>\n</div>'});
 			});
 
-			it('should parse @returns with complex type and description', function() {
+			it('should parse @returns with complex type and description', () => {
 				var doc = new Doc("@name a\n@returns {function(string, number=)} description");
 				doc.parse();
 				expect(doc.returns).toEqual({type: 'function(string, number=)', description: '<div class="a-page"><p>description</p>\n</div>'});
 			});
 
-			it('should transform description of @returns with markdown', function() {
+			it('should transform description of @returns with markdown', () => {
 				var doc = new Doc("@name a\n@returns {string} descrip *tion*");
 				doc.parse();
 				expect(doc.returns).toEqual({type: 'string', description: '<div class="a-page"><p>descrip <em>tion</em></p>\n</div>'});
 			});
 
-			it('should support multiline content', function() {
+			it('should support multiline content', () => {
 				var doc = new Doc("@name a\n@returns {string} description\n new line\n another line");
 				doc.parse();
 				expect(doc.returns).toEqual({type: 'string', description: '<div class="a-page"><p>description\nnew line\nanother line</p>\n</div>'});
 			});
 		});
 
-		describe('@description', function() {
-			it('should support pre blocks', function() {
+		describe('@description', () => {
+			it('should support pre blocks', () => {
 				var doc = new Doc("@name a\n@description <pre><b>abc</b></pre>");
 				doc.parse();
 				expect(doc.description).toBe('<div class="a-page"><pre class="prettyprint linenums">&lt;b&gt;abc&lt;/b&gt;</pre>\n</div>');
 			});
 
-			it('should support multiple pre blocks', function() {
+			it('should support multiple pre blocks', () => {
 				var doc = new Doc("@name a\n@description foo \n<pre>abc</pre>\n# bah\nfoo \n<pre>cba</pre>");
 				doc.parse();
 				expect(doc.description).toBe('<div class="a-page"><p>foo\n' +
@@ -512,7 +512,7 @@ describe('uidoc', function() {
 					'<pre class="prettyprint linenums">cba</pre>\n</div>');
 			});
 
-			it('should support nested @link annotations with or without description', function() {
+			it('should support nested @link annotations with or without description', () => {
 				var doc = new Doc("@name a\n@description " +
 					'foo {@link angular.foo}\n\n da {@link angular.foo bar foo bar } \n\n' +
 					'dad{@link angular.foo}\n\n' +
@@ -531,7 +531,7 @@ describe('uidoc', function() {
 				expect(doc.description).toContain('<a href="./static.html">./static.html</a>');
 			});
 
-			it('should support line breaks in @link', function() {
+			it('should support line breaks in @link', () => {
 				var doc = new Doc("@name a\n@description " +
 					'{@link\napi/angular.foo\na\nb}', 'a', 1, 1, {html5Mode: true});
 				doc.parse();
@@ -540,24 +540,24 @@ describe('uidoc', function() {
 
 		});
 
-		describe('@example', function() {
-			it('should not remove {{}}', function() {
+		describe('@example', () => {
+			it('should not remove {{}}', () => {
 				var doc = new Doc('@name a\n@example text {{ abc }}');
 				doc.parse();
 				expect(doc.example).toEqual('<div class="a-page"><p>text {{ abc }}</p>\n</div>');
 			});
 		});
 
-		describe('@deprecated', function() {
-			it('should parse @deprecated', function() {
+		describe('@deprecated', () => {
+			it('should parse @deprecated', () => {
 				var doc = new Doc('@name a\n@deprecated Replaced with foo.');
 				doc.parse();
 				expect(doc.deprecated).toBe('Replaced with foo.');
 			});
 		});
 
-		describe('@this', function() {
-			it('should render @this', function() {
+		describe('@this', () => {
+			it('should render @this', () => {
 				var doc = new Doc('@name a\n@this I am self.');
 				doc.uidoc = 'filter';
 				doc.parse();
@@ -572,8 +572,8 @@ describe('uidoc', function() {
 			});
 		});
 
-		describe('@animations', function() {
-			it('should render @this', function() {
+		describe('@animations', () => {
+			it('should render @this', () => {
 				var doc = new Doc('@name a\n@animations\nenter - Add text\nleave - Remove text\n');
 				doc.uidoc = 'filter';
 				doc.parse();
@@ -589,9 +589,9 @@ describe('uidoc', function() {
 		});
 	});
 
-	describe('usage', function() {
-		describe('overview', function() {
-			it('should supress description heading', function() {
+	describe('usage', () => {
+		describe('overview', () => {
+			it('should supress description heading', () => {
 				var doc = new Doc('@uidoc overview\n@name angular\n@description\n# heading\ntext');
 				doc.parse();
 				expect(doc.html()).toContain('text');
@@ -600,8 +600,8 @@ describe('uidoc', function() {
 			});
 		});
 
-		describe('function', function() {
-			it('should format', function() {
+		describe('function', () => {
+			it('should format', () => {
 				var doc = new Doc({
 					uidoc: 'function',
 					name: 'some.function:name',
@@ -620,8 +620,8 @@ describe('uidoc', function() {
 			});
 		});
 
-		describe('filter', function() {
-			it('should format', function() {
+		describe('filter', () => {
+			it('should format', () => {
 				var doc = new Doc({
 					uidoc: 'formatter',
 					shortName: 'myFilter',
@@ -636,8 +636,8 @@ describe('uidoc', function() {
 			});
 		});
 
-		describe('property', function() {
-			it('should format', function() {
+		describe('property', () => {
+			it('should format', () => {
 				var doc = new Doc({
 					uidoc: 'property',
 					name: 'myProp',
@@ -651,8 +651,8 @@ describe('uidoc', function() {
 			});
 		});
 
-		describe('custom', function() {
-			it('should format', function() {
+		describe('custom', () => {
+			it('should format', () => {
 				var doc = new Doc({
 					uidoc: 'object',
 					name: 'app.common.object:myObject',
@@ -667,5 +667,4 @@ describe('uidoc', function() {
 			});
 		});
 	});
-
 });
