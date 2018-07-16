@@ -4,7 +4,7 @@
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/angular-ui/grunt-uidocs/blob/master/LICENSE)
 [![GitHub issues](https://img.shields.io/github/issues/angular-ui/grunt-uidocs.svg?style=flat)](https://github.com/angular-ui/grunt-uidocs/issues)
 
-> Grunt plugin to create a documentation like [AngularJS](http://docs.angularjs.org). Forked from [grunt-ngdocs](https://github.com/m7r/grunt-ngdocs).
+> Grunt plugin to create a documentation like [AngularJS](http://code.angularjs.org). Forked from [grunt-ngdocs](https://github.com/m7r/grunt-ngdocs).
 
 NOTE: this plugin requires Grunt >=0.4.x and is NOT YET RELEASED.
 
@@ -24,7 +24,7 @@ Once that's done, add this line to your project's Gruntfile:
 grunt.loadNpmTasks('grunt-uidocs');
 ```
 
-A full working example can be found at [https://github.com/m7r/grunt-uidocs-example]()
+A full working example can be found at the [grunt-uidocs github page](https://angular-ui.github.io/grunt-uidocs/)
 
 ## Config
 Inside your `Gruntfile.js` file, add a section named *uidocs*.
@@ -298,7 +298,7 @@ See the [AngularJS source code](https://github.com/angular/angular.js/tree/maste
 
 ## Batarang
 If your examples are empty you maybe have batarang enabled for the docs site.
-This is the same issue as on http://docs.angular.js and the batarang team is informed about it #68.
+This is the same issue as on http://code.angularjs.org and the batarang team is informed about it #68.
 
 ## License
 MIT License
