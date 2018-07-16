@@ -22,6 +22,7 @@
   "license": "MIT",
   "readmeFilename": "README.md",
   "dependencies": {
+    "bootstrap": "^3.3.7",
     "lodash": "^4.17.10",
     "marked": "^0.4.0",
     "shelljs": "^0.8.2",

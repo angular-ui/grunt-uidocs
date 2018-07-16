@@ -6,17 +6,17 @@
  * Licensed under the MIT license.
  */
 
-var reader = require('../src/reader.js'),
-    uidoc = require('../src/uidoc.js'),
-    template = require('lodash/template'),
-    flatten = require('lodash/flatten'),
-    map = require('lodash/map'),
-    union = require('lodash/union'),
-    path = require('path'),
-    upath = require('upath'),
-    vm = require('vm');
+const reader = require('../src/reader.js');
+const uidoc = require('../src/uidoc.js');
+const template = require('lodash/template');
+const flatten = require('lodash/flatten');
+const map = require('lodash/map');
+const union = require('lodash/union');
+const path = require('path');
+const upath = require('upath');
+const vm = require('vm');
 
-var repohosts = [
+const repohosts = [
   { re: /https?:\/\/github.com\/([^\/]+\/[^\/]+)|git@github.com:(.*)/,
     reSuffix: /\.git.*$/,
     sourceLink: 'https://github.com/{{repo}}/blob/{{sha}}/{{file}}#L{{codeline}}',
@@ -24,9 +24,9 @@ var repohosts = [
   }
 ];
 
-module.exports = function(grunt) {
-  var unittest = {},
-      templates = path.resolve(__dirname, '../src/templates');
+module.exports = (grunt) => {
+  const unittest = {};
+  const templates = path.resolve(__dirname, '../src/templates');
 
   grunt.registerMultiTask('uidocs', 'build documentation', function() {
     var start = now(),
@@ -46,6 +46,7 @@ module.exports = function(grunt) {
           httpScripts: [],
           hiddenScripts: [],
           versionedFiles: {},
+          baseCSSPath: 'bootstrap',
           styles: [],
           title: pkg.title || pkg.name || '',
           html5Mode: false,
@@ -99,13 +100,22 @@ module.exports = function(grunt) {
 
     options.hiddenScripts = map(options.hiddenScripts, copyAndReturnFile);
 
-    map(options.httpScripts, function(src) {
+    map(options.httpScripts, (src) => {
       options.scripts.push(src);
     });
 
     if (options.image && !linked.test(options.image)) {
       grunt.file.copy(options.image, path.join(options.dest, gruntStylesFolder, options.image));
       options.image = gruntStylesFolder + '/' + options.image;
+    }
+
+    if (options.baseCSSPath === 'bootstrap') {
+      grunt.file.copy(
+        `${options.thirdpartyPath}/bootstrap/dist/css/bootstrap.min.css`,
+        path.join(options.dest, 'css', 'bootstrap.min.css')
+      );
+
+      options.baseCSSPath = 'css/bootstrap.min.css';
     }
 
     options.styles = options.styles.map(function(file) {
@@ -247,6 +257,7 @@ module.exports = function(grunt) {
           hiddenScripts: options.hiddenScripts,
           adsConfig: options.adsConfig,
           versionedFiles: options.versionedFiles,
+          baseCSSPath: options.baseCSSPath,
           styles: options.styles,
           sections: Object.keys(setup.sections).join('|'),
           discussions: options.discussions,
@@ -263,7 +274,7 @@ module.exports = function(grunt) {
 
     // create index.html
     content = grunt.file.read(template);
-    content = grunt.template.process(content, {data:data});
+    content = grunt.template.process(content, {data});
     grunt.file.write(path.resolve(options.dest, 'index.html'), content);
 
     // create setup file
