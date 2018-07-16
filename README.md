@@ -8,9 +8,10 @@
 
 NOTE: this plugin requires Grunt >=0.4.x and is NOT YET RELEASED.
 
-ATTENTION: grunt-uidocs 0.2+ is for angularjs 1.2+
-grunt-uidocs 0.2.5 supports angularjs 1.3+ too.
-Please include angular.js with the scripts option
+ATTENTION: grunt-ngdocs 0.2+ is for angularjs 1.2+
+grunt-ngdocs 0.2.5 supports angularjs 1.3+ too.
+grunt-uidocs supports angularjs 1.6+.
+Please include angular, angular-animate and marked in the scripts option
 
 ## Getting Started
 From the same directory as your project's Gruntfile and package.json, install this plugin with the following command:
@@ -96,13 +97,14 @@ Set the sidebar to advanced mode, with sections for modules, services, etc.
 Folder relative to your Gruntfile where the documentation should be built.
 
 #### scripts
-[default] ['angular.js']
+[default] ['angular', 'angular-animate', 'marked']
 
-Set which angular.js file or additional custom js files are loaded to the app. This allows the live examples to use custom directives, services, etc. The documentation app works with angular.js >= 1.6.0.
+Set which angular.js file or additional custom js files are loaded to the app. This allows the live examples to use custom directives, services, etc. The documentation app works with angular.js >= 1.6.0. If .js extension is not provided, it
+assumes the file is a thirdparty module and gets the minified form of that file from 'node_modules/[module]/[module].min.js'
 
 Possible values:
 
-  - ['angular.js'] use angular 1.7.2 delivered with grunt-uidocs
+  - ['angular', 'angular-animate', 'marked'] use angular, angular-animate and marked from your node_modules folder
   - ['path/to/file.js'] file will be copied into the docs, into a `grunt-scripts` folder
   - ['http://example.com/file.js', 'https://example.com/file.js', '//example.com/file.js'] reference remote files (eg from a CDN)
   - ['../app.js'] reference file relative to the dest folder
@@ -123,6 +125,11 @@ Copy additional css files to the documentation app
 [default] null
 
 Allow to use your own template. Use the default template at src/templates/index.tmpl as reference.
+
+#### thirdpartyPath
+[default] node_modules
+
+If you want thirdparty modules to be loaded from a different location than node_modules, you can set that path here.
 
 #### startPage
 [default] '/api'
@@ -236,6 +243,16 @@ Optional include Google Analytics in the documentation app.
 ```js
 {
   account: 'UA-08150815-0'
+}
+```
+
+#### adsConfig
+Optional include Google Ads in the documentation app.
+
+```js
+{
+  client: 'ca-pub-6177019177103290',
+  slot: '3609320072'
 }
 ```
 

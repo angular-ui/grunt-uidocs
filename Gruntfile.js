@@ -31,8 +31,9 @@ module.exports = function (grunt) {
     uidocs: {
       options: {
         scripts: [
-          'angular.js',
-          'node_modules/angular-animate/angular-animate.min.js',
+          'angular',
+          'angular-animate',
+          'marked',
           'mock-app/directive.js',
           'mock-app/service.js'
         ],

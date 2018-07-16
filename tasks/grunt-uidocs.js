@@ -37,7 +37,12 @@ module.exports = function(grunt) {
           testingUrlPrefix: '/index.html#!',
           scenarioDest: '.tmp/doc-scenarios/',
           startPage: '/api',
-          scripts: ['angular.js'],
+          thirdpartyPath: 'node_modules',
+          scripts: [
+            'angular',
+            'angular-animate',
+            'marked'
+          ],
           httpScripts: [],
           hiddenScripts: [],
           versionedFiles: {},
@@ -52,44 +57,47 @@ module.exports = function(grunt) {
         section = this.target === 'all' ? 'api' : this.target,
         setup;
 
-    //Copy the scripts into their own folder in docs, unless they are remote or default angular.js
-    var linked = /^((https?:)?\/\/|\.\.\/)/;
-    var gruntScriptsFolder = 'grunt-scripts';
-    var gruntStylesFolder = 'grunt-styles';
+    // Copy the scripts into their own folder in docs, unless they are remote or default angular.js
+    const linked = /^((https?:)?\/\/|\.\.\/)/;
+    const gruntScriptsFolder = 'grunt-scripts';
+    const gruntStylesFolder = 'grunt-styles';
+
+    function loadThirdpartyModule(file, filename) {
+      const minFileName = `${filename}.min.js`;
+
+      grunt.file.copy(
+        `${options.thirdpartyPath}/${file}/${file}.min.js`,
+        path.join(options.dest, 'js', minFileName)
+      );
+
+      return `js/${minFileName}`;
+    }
+
+    function copyAndReturnFile(file) {
+      let filename = file.split('/').pop();
+
+      // assume strings without a .js extension are thirdparty modules
+      if (!file.includes('.js')) {
+        return loadThirdpartyModule(file, filename);
+      }
+
+      if (linked.test(file)) {
+        return file;
+      }
+
+      // Use path.join here because we aren't sure if options.dest has / or not
+      grunt.file.copy(file, path.join(options.dest, gruntScriptsFolder, filename));
+
+      // Return the script path: doesn't have options.dest in it, it's relative
+      // to the docs folder itself
+      return gruntScriptsFolder + '/' + filename;
+    }
 
   	// If the options.script is an array of arrays ( useful when working with variables, for example: ['<%= vendor_files %>','<%= app_files %>'] )
   	// convert to a single array ( https://lodash.com/docs/4.17.4#flatten )
-  	options.scripts = flatten(options.scripts).map(function(file) {
-      if (file === 'angular.js') {
-        return 'js/angular.min.js';
-      }
+  	options.scripts = flatten(options.scripts).map(copyAndReturnFile);
 
-      if (linked.test(file)) {
-        return file;
-      }
-
-      var filename = file.split('/').pop();
-      //Use path.join here because we aren't sure if options.dest has / or not
-      grunt.file.copy(file, path.join(options.dest, gruntScriptsFolder, filename));
-
-      //Return the script path: doesn't have options.dest in it, it's relative
-      //to the docs folder itself
-      return gruntScriptsFolder + '/' + filename;
-    });
-
-    options.hiddenScripts = map(options.hiddenScripts, function(file) {
-      if (linked.test(file)) {
-        return file;
-      } else {
-        var filename = file.split('/').pop();
-        //Use path.join here because we aren't sure if options.dest has / or not
-        grunt.file.copy(file, path.join(options.dest, gruntScriptsFolder, filename));
-
-        //Return the script path: doesn't have options.dest in it, it's relative
-        //to the docs folder itself
-        return gruntScriptsFolder + '/' + filename;
-      }
-    });
+    options.hiddenScripts = map(options.hiddenScripts, copyAndReturnFile);
 
     map(options.httpScripts, function(src) {
       options.scripts.push(src);
