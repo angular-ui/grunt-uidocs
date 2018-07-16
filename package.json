@@ -5,8 +5,11 @@
   "main": "tasks",
   "repository": {
     "type": "git",
-    "url": "https://github.com/angular-ui/grunt-uidocs.git"
+    "url": "https://github.com/angular-ui/grunt-uidocs-generator.git"
   },
+  "author": "UI Docs Team",
+  "homepage": "https://github.com/angular-ui/grunt-uidocs-generator",
+  "bugs": "https://github.com/angular-ui/grunt-uidocs-generator/issues",
   "scripts": {
     "build": "grunt clean uidocs",
     "start": "npm run build && grunt connect",

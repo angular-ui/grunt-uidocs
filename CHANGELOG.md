@@ -1,40 +1,40 @@
 <a name="0.4.1"></a>
-## [0.4.1](https://github.com/angular-ui/grunt-uidocs/compare/v0.4.0...v0.4.1) (2018-07-16)
+## [0.4.1](https://github.com/angular-ui/grunt-uidocs-generator/compare/v0.4.0...v0.4.1) (2018-07-16)
 
 
 
 <a name="0.4.0"></a>
-# [0.4.0](https://github.com/angular-ui/grunt-uidocs/compare/0.3.1-custom...0.4.0) (2018-07-16)
+# [0.4.0](https://github.com/angular-ui/grunt-uidocs-generator/compare/0.3.1-custom...0.4.0) (2018-07-16)
 
 
 ### Bug Fixes
 
-* **bootstrap:** Remove bootstrap.css from src and make it a dependency. ([995bc80](https://github.com/angular-ui/grunt-uidocs/commit/995bc80))
-* **demo:** Remove console errors from demo. ([e5e20d6](https://github.com/angular-ui/grunt-uidocs/commit/e5e20d6))
-* **grunt-uidocs:** Finish renaming process for grunt-uidocs ([22e67a2](https://github.com/angular-ui/grunt-uidocs/commit/22e67a2))
-* **grunt-uidocs:** Renaming repository. ([c0d61d1](https://github.com/angular-ui/grunt-uidocs/commit/c0d61d1))
-* **index.tmpl:** Add missing > ([11d2e47](https://github.com/angular-ui/grunt-uidocs/commit/11d2e47))
-* **index.tmpl:** Add missing > ([6be45e5](https://github.com/angular-ui/grunt-uidocs/commit/6be45e5))
-* **marked:** Prevent console error on marked. ([670f80b](https://github.com/angular-ui/grunt-uidocs/commit/670f80b))
-* **ngdoc:** Update ngdoc to support most recent version of marked.js ([d31561c](https://github.com/angular-ui/grunt-uidocs/commit/d31561c))
-* **uidocs:** More renaming from ngdocs to uidocs. ([e33c727](https://github.com/angular-ui/grunt-uidocs/commit/e33c727))
-* **versionedFiles:** Versioned files are no longer required. ([b0635ce](https://github.com/angular-ui/grunt-uidocs/commit/b0635ce))
-* **versionedFiles:** Versioned files are no longer required. ([54156c4](https://github.com/angular-ui/grunt-uidocs/commit/54156c4))
-* **view-source:** Add fallback for view source link. ([790d6ba](https://github.com/angular-ui/grunt-uidocs/commit/790d6ba))
-* **view-source:** Add fallback for view source link. ([fc25d1e](https://github.com/angular-ui/grunt-uidocs/commit/fc25d1e))
+* **bootstrap:** Remove bootstrap.css from src and make it a dependency. ([995bc80](https://github.com/angular-ui/grunt-uidocs-generator/commit/995bc80))
+* **demo:** Remove console errors from demo. ([e5e20d6](https://github.com/angular-ui/grunt-uidocs-generator/commit/e5e20d6))
+* **grunt-uidocs:** Finish renaming process for grunt-uidocs ([22e67a2](https://github.com/angular-ui/grunt-uidocs-generator/commit/22e67a2))
+* **grunt-uidocs:** Renaming repository. ([c0d61d1](https://github.com/angular-ui/grunt-uidocs-generator/commit/c0d61d1))
+* **index.tmpl:** Add missing > ([11d2e47](https://github.com/angular-ui/grunt-uidocs-generator/commit/11d2e47))
+* **index.tmpl:** Add missing > ([6be45e5](https://github.com/angular-ui/grunt-uidocs-generator/commit/6be45e5))
+* **marked:** Prevent console error on marked. ([670f80b](https://github.com/angular-ui/grunt-uidocs-generator/commit/670f80b))
+* **ngdoc:** Update ngdoc to support most recent version of marked.js ([d31561c](https://github.com/angular-ui/grunt-uidoc-generators/commit/d31561c))
+* **uidocs:** More renaming from ngdocs to uidocs. ([e33c727](https://github.com/angular-ui/grunt-uidocs-generator/commit/e33c727))
+* **versionedFiles:** Versioned files are no longer required. ([b0635ce](https://github.com/angular-ui/grunt-uidocs-generator/commit/b0635ce))
+* **versionedFiles:** Versioned files are no longer required. ([54156c4](https://github.com/angular-ui/grunt-uidocs-generator/commit/54156c4))
+* **view-source:** Add fallback for view source link. ([790d6ba](https://github.com/angular-ui/grunt-uidocs-generator/commit/790d6ba))
+* **view-source:** Add fallback for view source link. ([fc25d1e](https://github.com/angular-ui/grunt-uidocs-generator/commit/fc25d1e))
 
 
 ### Features
 
-* show a line-through on components annotated with [@deprecated](https://github.com/deprecated) ([52e7532](https://github.com/angular-ui/grunt-uidocs/commit/52e7532))
-* **docs.js:** Update angular.min.js file to 1.7.2 ([5142850](https://github.com/angular-ui/grunt-uidocs/commit/5142850))
-* **index.tmpl:** Add toggle button for table of contents on mobile. ([c5d7ae2](https://github.com/angular-ui/grunt-uidocs/commit/c5d7ae2))
-* **index.tmpl:** Improve responsiveness. ([56f1107](https://github.com/angular-ui/grunt-uidocs/commit/56f1107))
-* **index.tmpl:** Improve responsiveness. ([e16fedb](https://github.com/angular-ui/grunt-uidocs/commit/e16fedb))
-* **ngdocs:** add commit `{{rev}}` in sourceLink ([9a833c2](https://github.com/angular-ui/grunt-uidocs/commit/9a833c2))
-* **ngdocs:** add support for component type ([0eadff4](https://github.com/angular-ui/grunt-uidocs/commit/0eadff4))
-* **ngdocs:** use lodash ([6c403bc](https://github.com/angular-ui/grunt-uidocs/commit/6c403bc))
-* **options.scripts:** Scripts support loading node modules. ([21da92f](https://github.com/angular-ui/grunt-uidocs/commit/21da92f))
+* show a line-through on components annotated with [@deprecated](https://github.com/deprecated) ([52e7532](https://github.com/angular-ui/grunt-uidocs-generator/commit/52e7532))
+* **docs.js:** Update angular.min.js file to 1.7.2 ([5142850](https://github.com/angular-ui/grunt-uidocs-generator/commit/5142850))
+* **index.tmpl:** Add toggle button for table of contents on mobile. ([c5d7ae2](https://github.com/angular-ui/grunt-uidocs-generator/commit/c5d7ae2))
+* **index.tmpl:** Improve responsiveness. ([56f1107](https://github.com/angular-ui/grunt-uidocs-generator/commit/56f1107))
+* **index.tmpl:** Improve responsiveness. ([e16fedb](https://github.com/angular-ui/grunt-uidocs-generator/commit/e16fedb))
+* **ngdocs:** add commit `{{rev}}` in sourceLink ([9a833c2](https://github.com/angular-ui/grunt-uidocs-generator/commit/9a833c2))
+* **ngdocs:** add support for component type ([0eadff4](https://github.com/angular-ui/grunt-uidocs-generator/commit/0eadff4))
+* **ngdocs:** use lodash ([6c403bc](https://github.com/angular-ui/grunt-uidocs-generator/commit/6c403bc))
+* **options.scripts:** Scripts support loading node modules. ([21da92f](https://github.com/angular-ui/grunt-uidocs-generator/commit/21da92f))
 
 
 

@@ -1,8 +1,8 @@
-# grunt-uidocs
+# grunt-uidocs-generator
 
-[![Build](https://travis-ci.org/angular-ui/grunt-uidocs.svg?branch=master)](https://travis-ci.org/angular-ui/grunt-uidocs)
-[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/angular-ui/grunt-uidocs/blob/master/LICENSE)
-[![GitHub issues](https://img.shields.io/github/issues/angular-ui/grunt-uidocs.svg?style=flat)](https://github.com/angular-ui/grunt-uidocs/issues)
+[![Build](https://travis-ci.org/angular-ui/grunt-uidocs-generator.svg?branch=master)](https://travis-ci.org/angular-ui/grunt-uidocs-generator)
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/angular-ui/grunt-uidocs-generator/blob/master/LICENSE)
+[![GitHub issues](https://img.shields.io/github/issues/angular-ui/grunt-uidocs-generator.svg?style=flat)](https://github.com/angular-ui/grunt-uidocs-generator/issues)
 
 > Grunt plugin to create a documentation like [AngularJS](http://code.angularjs.org). Forked from [grunt-ngdocs](https://github.com/m7r/grunt-ngdocs).
 
@@ -24,7 +24,7 @@ Once that's done, add this line to your project's Gruntfile:
 grunt.loadNpmTasks('grunt-uidocs-generator');
 ```
 
-A full working example can be found at the [grunt-uidocs github page](https://angular-ui.github.io/grunt-uidocs/)
+A full working example can be found at the [grunt-uidocs github page](https://angular-ui.github.io/grunt-uidocs-generator/)
 
 ## Config
 Inside your `Gruntfile.js` file, add a section named *uidocs*.
@@ -265,7 +265,7 @@ After that, only index.html, js/docs-setup.js, and the partials will be overwrit
 
 Partials that are no longer needed will not be deleted. Use, for example, the grunt-contrib-clean task to clean the docs folder before creating a distribution build.
 
-After an update of grunt-uidocs you should clean the docs folder too.
+After an update of grunt-uidocs-generator you should clean the docs folder too.
 
 A doc comment looks like this:
 

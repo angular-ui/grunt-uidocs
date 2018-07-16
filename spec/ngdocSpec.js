@@ -134,7 +134,7 @@ describe('uidoc', function() {
 				});
 
 				it('should not change external url', function() {
-					expect(doc.convertUrlToAbsolute('https://github.com/angular-ui/grunt-uidocs')).toEqual('https://github.com/angular-ui/grunt-uidocs');
+					expect(doc.convertUrlToAbsolute('https://github.com/angular-ui/grunt-uidocs-generator')).toEqual('https://github.com/angular-ui/grunt-uidocs-generator');
 				});
 			});
 
@@ -158,7 +158,7 @@ describe('uidoc', function() {
 				});
 
 				it('should not change external url', function() {
-					expect(doc.convertUrlToAbsolute('https://github.com/m7r/grunt-uidocs')).toEqual('https://github.com/m7r/grunt-uidocs');
+					expect(doc.convertUrlToAbsolute('https://github.com/angular-ui/grunt-uidocs-generator')).toEqual('https://github.com/angular-ui/grunt-uidocs-generator');
 				});
 			});
 

@@ -1,6 +1,6 @@
 /*
- * grunt-uidocs
- * https://github.com/angular-ui/grunt-uidocs
+ * grunt-uidocs-generator
+ * https://github.com/angular-ui/grunt-uidocs-generator
  *
  * Copyright (c) 2013-2018 m7r and Marcelo Sauerbrunn Portugal
  * Licensed under the MIT license.
