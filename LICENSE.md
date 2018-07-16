@@ -1,6 +1,6 @@
 MIT License
 
-Copyright (c) 2018 Marcelo Sauerbrunn Portugal
+Copyright (c) 2018 m7r, Marcelo Sauerbrunn Portugal
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

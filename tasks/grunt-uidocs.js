@@ -6,17 +6,17 @@
  * Licensed under the MIT license.
  */
 
-var reader = require('../src/reader.js'),
-    uidoc = require('../src/uidoc.js'),
-    template = require('lodash/template'),
-    flatten = require('lodash/flatten'),
-    map = require('lodash/map'),
-    union = require('lodash/union'),
-    path = require('path'),
-    upath = require('upath'),
-    vm = require('vm');
+const reader = require('../src/reader.js');
+const uidoc = require('../src/uidoc.js');
+const template = require('lodash/template');
+const flatten = require('lodash/flatten');
+const map = require('lodash/map');
+const union = require('lodash/union');
+const path = require('path');
+const upath = require('upath');
+const vm = require('vm');
 
-var repohosts = [
+const repohosts = [
   { re: /https?:\/\/github.com\/([^\/]+\/[^\/]+)|git@github.com:(.*)/,
     reSuffix: /\.git.*$/,
     sourceLink: 'https://github.com/{{repo}}/blob/{{sha}}/{{file}}#L{{codeline}}',
@@ -24,9 +24,9 @@ var repohosts = [
   }
 ];
 
-module.exports = function(grunt) {
-  var unittest = {},
-      templates = path.resolve(__dirname, '../src/templates');
+module.exports = (grunt) => {
+  const unittest = {};
+  const templates = path.resolve(__dirname, '../src/templates');
 
   grunt.registerMultiTask('uidocs', 'build documentation', function() {
     var start = now(),
@@ -37,10 +37,16 @@ module.exports = function(grunt) {
           testingUrlPrefix: '/index.html#!',
           scenarioDest: '.tmp/doc-scenarios/',
           startPage: '/api',
-          scripts: ['angular.js'],
+          thirdpartyPath: 'node_modules',
+          scripts: [
+            'angular',
+            'angular-animate',
+            'marked'
+          ],
           httpScripts: [],
           hiddenScripts: [],
           versionedFiles: {},
+          baseCSSPath: 'bootstrap',
           styles: [],
           title: pkg.title || pkg.name || '',
           html5Mode: false,
@@ -52,52 +58,64 @@ module.exports = function(grunt) {
         section = this.target === 'all' ? 'api' : this.target,
         setup;
 
-    //Copy the scripts into their own folder in docs, unless they are remote or default angular.js
-    var linked = /^((https?:)?\/\/|\.\.\/)/;
-    var gruntScriptsFolder = 'grunt-scripts';
-    var gruntStylesFolder = 'grunt-styles';
+    // Copy the scripts into their own folder in docs, unless they are remote or default angular.js
+    const linked = /^((https?:)?\/\/|\.\.\/)/;
+    const gruntScriptsFolder = 'grunt-scripts';
+    const gruntStylesFolder = 'grunt-styles';
+
+    function loadThirdpartyModule(file, filename) {
+      const minFileName = `${filename}.min.js`;
+
+      grunt.file.copy(
+        `${options.thirdpartyPath}/${file}/${file}.min.js`,
+        path.join(options.dest, 'js', minFileName)
+      );
+
+      return `js/${minFileName}`;
+    }
+
+    function copyAndReturnFile(file) {
+      let filename = file.split('/').pop();
+
+      // assume strings without a .js extension are thirdparty modules
+      if (!file.includes('.js')) {
+        return loadThirdpartyModule(file, filename);
+      }
+
+      if (linked.test(file)) {
+        return file;
+      }
+
+      // Use path.join here because we aren't sure if options.dest has / or not
+      grunt.file.copy(file, path.join(options.dest, gruntScriptsFolder, filename));
+
+      // Return the script path: doesn't have options.dest in it, it's relative
+      // to the docs folder itself
+      return gruntScriptsFolder + '/' + filename;
+    }
 
   	// If the options.script is an array of arrays ( useful when working with variables, for example: ['<%= vendor_files %>','<%= app_files %>'] )
   	// convert to a single array ( https://lodash.com/docs/4.17.4#flatten )
-  	options.scripts = flatten(options.scripts).map(function(file) {
-      if (file === 'angular.js') {
-        return 'js/angular.min.js';
-      }
+  	options.scripts = flatten(options.scripts).map(copyAndReturnFile);
 
-      if (linked.test(file)) {
-        return file;
-      }
+    options.hiddenScripts = map(options.hiddenScripts, copyAndReturnFile);
 
-      var filename = file.split('/').pop();
-      //Use path.join here because we aren't sure if options.dest has / or not
-      grunt.file.copy(file, path.join(options.dest, gruntScriptsFolder, filename));
-
-      //Return the script path: doesn't have options.dest in it, it's relative
-      //to the docs folder itself
-      return gruntScriptsFolder + '/' + filename;
-    });
-
-    options.hiddenScripts = map(options.hiddenScripts, function(file) {
-      if (linked.test(file)) {
-        return file;
-      } else {
-        var filename = file.split('/').pop();
-        //Use path.join here because we aren't sure if options.dest has / or not
-        grunt.file.copy(file, path.join(options.dest, gruntScriptsFolder, filename));
-
-        //Return the script path: doesn't have options.dest in it, it's relative
-        //to the docs folder itself
-        return gruntScriptsFolder + '/' + filename;
-      }
-    });
-
-    map(options.httpScripts, function(src) {
+    map(options.httpScripts, (src) => {
       options.scripts.push(src);
     });
 
     if (options.image && !linked.test(options.image)) {
       grunt.file.copy(options.image, path.join(options.dest, gruntStylesFolder, options.image));
       options.image = gruntStylesFolder + '/' + options.image;
+    }
+
+    if (options.baseCSSPath === 'bootstrap') {
+      grunt.file.copy(
+        `${options.thirdpartyPath}/bootstrap/dist/css/bootstrap.min.css`,
+        path.join(options.dest, 'css', 'bootstrap.min.css')
+      );
+
+      options.baseCSSPath = 'css/bootstrap.min.css';
     }
 
     options.styles = options.styles.map(function(file) {
@@ -239,6 +257,7 @@ module.exports = function(grunt) {
           hiddenScripts: options.hiddenScripts,
           adsConfig: options.adsConfig,
           versionedFiles: options.versionedFiles,
+          baseCSSPath: options.baseCSSPath,
           styles: options.styles,
           sections: Object.keys(setup.sections).join('|'),
           discussions: options.discussions,
@@ -255,7 +274,7 @@ module.exports = function(grunt) {
 
     // create index.html
     content = grunt.file.read(template);
-    content = grunt.template.process(content, {data:data});
+    content = grunt.template.process(content, {data});
     grunt.file.write(path.resolve(options.dest, 'index.html'), content);
 
     // create setup file
