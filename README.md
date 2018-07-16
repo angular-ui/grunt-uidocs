@@ -10,18 +10,18 @@ NOTE: this plugin requires Grunt >=0.4.x and is NOT YET RELEASED.
 
 ATTENTION: grunt-ngdocs 0.2+ is for angularjs 1.2+
 grunt-ngdocs 0.2.5 supports angularjs 1.3+ too.
-grunt-uidocs supports angularjs 1.6+.
+grunt-uidocs-generator supports angularjs 1.6+.
 Please include angular, angular-animate and marked in the scripts option
 
 ## Getting Started
 From the same directory as your project's Gruntfile and package.json, install this plugin with the following command:
 
-`npm install grunt-uidocs --save-dev`
+`npm install grunt-uidocs-generator --save-dev`
 
 Once that's done, add this line to your project's Gruntfile:
 
 ```js
-grunt.loadNpmTasks('grunt-uidocs');
+grunt.loadNpmTasks('grunt-uidocs-generator');
 ```
 
 A full working example can be found at the [grunt-uidocs github page](https://angular-ui.github.io/grunt-uidocs/)

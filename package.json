@@ -1,5 +1,5 @@
 {
-  "name": "grunt-uidocs",
+  "name": "grunt-uidocs-generator",
   "version": "0.4.0",
   "description": "grunt plugin for angularjs documentation",
   "main": "tasks",
@@ -19,7 +19,7 @@
     "gruntplugin",
     "angular",
     "grunt",
-    "uidocs",
+    "ngdocs",
     "uidocs",
     "documention"
   ],
