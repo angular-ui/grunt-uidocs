@@ -1,6 +1,6 @@
 {
   "name": "grunt-uidocs",
-  "version": "0.3.1-custom",
+  "version": "0.3.1",
   "description": "grunt plugin for angularjs documentation",
   "main": "tasks",
   "repository": {
@@ -8,8 +8,12 @@
     "url": "https://github.com/angular-ui/grunt-uidocs.git"
   },
   "scripts": {
-    "start": "grunt clean uidocs connect",
-    "test": "grunt test"
+    "build": "grunt clean uidocs",
+    "start": "npm run build && grunt connect",
+    "test": "grunt test",
+    "preversion": "npm test",
+    "version": "npm run build && grunt conventionalChangelog && git add -f docs/ CHANGELOG.md",
+    "postversion": "git push && git push --tags && grunt clean"
   },
   "keywords": [
     "gruntplugin",
