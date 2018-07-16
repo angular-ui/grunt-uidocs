@@ -9,7 +9,10 @@ module.exports = function (grunt) {
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
-    changelog: { options: { dest: 'CHANGELOG.md' } },
+    conventionalChangelog: {
+      options: {changelogOpts: {preset: 'angular'}},
+      release: {src: 'CHANGELOG.md'}
+    },
     connect: {
       options: {
         base: 'docs',
@@ -37,6 +40,7 @@ module.exports = function (grunt) {
           'mock-app/directive.js',
           'mock-app/service.js'
         ],
+        title: 'grunt-uidocs-example',
         html5Mode: false
       },
       all: ['mock-app/*.js']
