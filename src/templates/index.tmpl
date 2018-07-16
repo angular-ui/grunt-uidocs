@@ -180,8 +180,13 @@
             <link ng-repeat="l in versionedCSS" rel="stylesheet" ng-href="{{ l.src }}" />
           </div>
         </div>
-
-        <form class="form-search" ng-submit="submitForm()">
+        <div class="visible-xs-block">
+          <button class="btn btn-primary btn-block" type="button" ng-click="showSideBar = !showSideBar">
+            Show / Hide Table of Contents
+          </button>
+          <div class="spacer"></div>
+        </div>
+        <form class="form-search" ng-class="{'hidden-xs': !showSideBar}" ng-submit="submitForm()">
           <% if (bestMatch) { %>
           <div class="dropdown search"
                ng-class="{open: focused && bestMatch.rank > 0 && bestMatch.page != currentPage}">
@@ -197,7 +202,7 @@
           <input type="text" class="form-control" ng-model="search" placeholder="search the docs" aria-label="Search the documentation"
                  tabindex="0" accesskey="s" class="search-query" focused="focused">
           <% } %>
-          <button role="button" class="sr-only sr-only-focusable" ng-click="skipToContent('nav-tag')" tabindex="0">
+          <button type="button" class="sr-only sr-only-focusable" ng-click="skipToContent('nav-tag')" tabindex="0">
             <div class="section">
               <span class="skiplink-text">Skip to main content</span>
             </div>
@@ -271,9 +276,13 @@
             <li ng-repeat="page in module.globals track by page.url" ng-class="navClass(page)" class="api-list-item expand" role="presentation">
               <a href="{{page.url}}" tabindex="0">{{page.id}}</a>
             </li>
-
           </ul>
-
+          <div class="visible-xs-block">
+            <button class="btn btn-default btn-block" type="button" ng-click="showSideBar = !showSideBar">
+              &times; Close Table of Contents
+            </button>
+            <div class="spacer"></div>
+          </div>
         </form>
       </div>
       <div class="col-xs-12 col-sm-9">
