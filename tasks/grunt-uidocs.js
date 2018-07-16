@@ -40,8 +40,7 @@ module.exports = (grunt) => {
           thirdpartyPath: 'node_modules',
           scripts: [
             'angular',
-            'angular-animate',
-            'marked'
+            'angular-animate'
           ],
           httpScripts: [],
           hiddenScripts: [],
@@ -63,11 +62,11 @@ module.exports = (grunt) => {
     const gruntScriptsFolder = 'grunt-scripts';
     const gruntStylesFolder = 'grunt-styles';
 
-    function loadThirdpartyModule(file, filename) {
+    function loadThirdpartyModule(filename) {
       const minFileName = `${filename}.min.js`;
 
       grunt.file.copy(
-        `${options.thirdpartyPath}/${file}/${file}.min.js`,
+        `${options.thirdpartyPath}/${filename}/${filename}.min.js`,
         path.join(options.dest, 'js', minFileName)
       );
 
@@ -79,7 +78,7 @@ module.exports = (grunt) => {
 
       // assume strings without a .js extension are thirdparty modules
       if (!file.includes('.js')) {
-        return loadThirdpartyModule(file, filename);
+        return loadThirdpartyModule(filename);
       }
 
       if (linked.test(file)) {
@@ -93,6 +92,8 @@ module.exports = (grunt) => {
       // to the docs folder itself
       return gruntScriptsFolder + '/' + filename;
     }
+
+    loadThirdpartyModule('marked');
 
   	// If the options.script is an array of arrays ( useful when working with variables, for example: ['<%= vendor_files %>','<%= app_files %>'] )
   	// convert to a single array ( https://lodash.com/docs/4.17.4#flatten )

@@ -97,7 +97,7 @@ Set the sidebar to advanced mode, with sections for modules, services, etc.
 Folder relative to your Gruntfile where the documentation should be built.
 
 #### scripts
-[default] ['angular', 'angular-animate', 'marked']
+[default] ['angular', 'angular-animate']
 
 Set which angular.js file or additional custom js files are loaded to the app. This allows the live examples to use custom directives, services, etc. The documentation app works with angular.js >= 1.6.0. If .js extension is not provided, it
 assumes the file is a thirdparty module and gets the minified form of that file from 'node_modules/[module]/[module].min.js'
