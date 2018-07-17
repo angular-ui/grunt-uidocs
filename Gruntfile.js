@@ -33,17 +33,14 @@ module.exports = function (grunt) {
     },
     uidocs: {
       options: {
-        scripts: [
-          'angular',
-          'angular-animate',
-          'marked',
-          'mock-app/directive.js',
-          'mock-app/service.js'
-        ],
         title: 'grunt-uidocs-example',
         html5Mode: false
       },
-      all: ['mock-app/*.js']
+      examples: {
+        src: ['examples/*.uidoc', 'examples/*.ngdoc'],
+        title: 'Example Custom Docs'
+      },
+      api: ['src/**/*.js']
     },
     watch: {
       parser: {

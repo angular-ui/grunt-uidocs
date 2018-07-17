@@ -107,11 +107,20 @@ describe('uidoc', () => {
 				expect(doc.links).toContain('api/angular.link');
 			});
 
-			it('should correctly parse capitalized service names', () => {
-				var doc = new Doc('@uidoc service\n@name my.module.Service');
+			function testCapitalizedServiceNames(identifier) {
+				const doc = new Doc(`${identifier} service\n@name my.module.Service`);
+
 				doc.parse();
 				expect(uidoc.metadata([doc])[0].shortName).toEqual('my.module.Service');
 				expect(uidoc.metadata([doc])[0].moduleName).toEqual('my.module');
+			}
+
+			it('should correctly parse capitalized service names', () => {
+				testCapitalizedServiceNames('@uidoc');
+			});
+
+			it('should correctly parse capitalized service names even if @ngdoc is used instead of @uidoc', () => {
+				testCapitalizedServiceNames('@ngdoc');
 			});
 
 			describe('convertUrlToAbsolute', () => {
@@ -377,13 +386,38 @@ describe('uidoc', () => {
 				expect(doc.html()).toContain('<p>for <code>B</code></p>');
 			});
 
+			function testExternalLinks(identifier) {
+				const doc = new Doc(`
+					${identifier} overview\n
+					@name a\n
+					@requires {@link https://github.com/angular-ui/ui-router}\n
+					@requires {@link https://github.com/angular-ui/ui-router ui.router}\n
+					@requires {@link https://github.com/angular-ui/ui-router|ui.router}\n
+					@requires [ui.router]{@link https://github.com/angular-ui/ui-router}
+				`);
+
+				doc.parse();
+				expect(doc.requires).toEqual([
+					{name: '{@link https://github.com/angular-ui/ui-router}', text: null},
+					{name: '{@link https://github.com/angular-ui/ui-router ui.router}', text: null},
+					{name: '{@link https://github.com/angular-ui/ui-router|ui.router}', text: null},
+					{name: '[ui.router]{@link https://github.com/angular-ui/ui-router}', text: null}]);
+				expect(doc.html()).toContain('<a href="https://github.com/angular-ui/ui-router">ui-router</a>');
+				expect(doc.html()).toContain('<a href="https://github.com/angular-ui/ui-router">ui.router</a>');
+				expect(doc.html()).toContain('<a href="https://github.com/angular-ui/ui-router">ui.router</a>');
+				expect(doc.html()).toContain('<a href="https://github.com/angular-ui/ui-router">ui.router</a>');
+			}
+
 			it('should parse {@link} into external links', () => {
-				var doc = new Doc('@uidoc overview\n' +
-					'@name a\n' +
-					'@requires {@link https://github.com/angular-ui/ui-router}\n' +
-					'@requires {@link https://github.com/angular-ui/ui-router ui.router}\n' +
-					'@requires {@link https://github.com/angular-ui/ui-router|ui.router}\n' +
-					'@requires [ui.router]{@link https://github.com/angular-ui/ui-router}');
+				const doc = new Doc(`
+					@uidoc overview\n
+					@name a\n
+					@requires {@link https://github.com/angular-ui/ui-router}\n
+					@requires {@link https://github.com/angular-ui/ui-router ui.router}\n
+					@requires {@link https://github.com/angular-ui/ui-router|ui.router}\n
+					@requires [ui.router]{@link https://github.com/angular-ui/ui-router}
+				`);
+
 				doc.parse();
 				expect(doc.requires).toEqual([
 					{name: '{@link https://github.com/angular-ui/ui-router}', text: null},
@@ -592,7 +626,8 @@ describe('uidoc', () => {
 	describe('usage', () => {
 		describe('overview', () => {
 			it('should supress description heading', () => {
-				var doc = new Doc('@uidoc overview\n@name angular\n@description\n# heading\ntext');
+				const doc = new Doc('@uidoc overview\n@name angular\n@description\n# heading\ntext');
+
 				doc.parse();
 				expect(doc.html()).toContain('text');
 				expect(doc.html()).toContain('<h2 id="heading">heading</h2>');

@@ -141,6 +141,7 @@ img.AngularJS-small {
 .form-search .well .nav-header a {
   text-transform: none;
   color: black;
+  padding: 3px 0;
 }
 .form-search .well .nav-header a:hover {
   background-color: inherit;
@@ -170,7 +171,7 @@ img.AngularJS-small {
 
 .form-search > ul.nav > li > a {
   margin: 0;
-  padding: 3px 15px;
+  padding: 3px 8px;
   display: inline-block;
 }
 

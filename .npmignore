@@ -3,6 +3,6 @@
 .tmp
 *.sublime-*
 docs
-mock-app
+examples
 spec
 Gruntfile.js
