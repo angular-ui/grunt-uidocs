@@ -1,3 +1,13 @@
+<a name="0.5.0"></a>
+# [0.5.0](https://github.com/angular-ui/grunt-uidocs-generator/compare/v0.4.1...v0.5.0) (2018-07-17)
+
+
+### Features
+
+* **reader.js:** Add backwards compatibility with [@ngdocs](https://github.com/ngdocs) markup. ([7c6f9a1](https://github.com/angular-ui/grunt-uidocs-generator/commit/7c6f9a1))
+
+
+
 <a name="0.4.1"></a>
 ## [0.4.1](https://github.com/angular-ui/grunt-uidocs-generator/compare/v0.4.0...v0.4.1) (2018-07-16)
 

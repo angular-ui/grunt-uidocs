@@ -1,0 +1,207 @@
+<a href="https://github.com/angular-ui/grunt-uidocs-generator/edit/master/examples/01_GETTING_STARTED.uidoc" class="improve-docs"><i class="icon-edit"> </i>Improve this doc</a><h1><code ng:non-bindable=""></code>
+<div><span class="hint"></span>
+</div>
+</h1>
+<div><div class="getting-started-page"><h2 id="getting-started">Getting Started</h2>
+<p>From the same directory as your project&#39;s Gruntfile and package.json, install this plugin with the following command:</p>
+<p><code>npm install grunt-uidocs-generator --save-dev</code></p>
+<p>Once that&#39;s done, add this line to your project&#39;s Gruntfile:</p>
+<pre><code class="language-js">grunt.loadNpmTasks(&#39;grunt-uidocs-generator&#39;);</code></pre>
+<p>A full working example can be found at the <a href="https://angular-ui.github.io/grunt-uidocs-generator/">grunt-uidocs github page</a></p>
+<h3 id="getting-started_config">Config</h3>
+<p>Inside your <code>Gruntfile.js</code> file, add a section named <em>uidocs</em>.
+Here&#39;s a simple example:</p>
+<pre><code class="language-js">uidocs: {
+  all: [&#39;src/**/*.js&#39;]
+}</code></pre>
+<p>And with many options:</p>
+<pre><code class="language-js">uidocs: {
+  options: {
+    dest: &#39;docs&#39;,
+    scripts: [&#39;../app.min.js&#39;],
+    html5Mode: true,
+    startPage: &#39;/api&#39;,
+    title: &quot;My Awesome Docs&quot;,
+    image: &quot;path/to/my/image.png&quot;,
+    imageLink: &quot;http://my-domain.com&quot;,
+    titleLink: &quot;/api&quot;,
+    inlinePartials: true,
+    bestMatch: true,
+    analytics: {
+      account: &#39;UA-08150815-0&#39;
+    },
+    discussions: {
+      shortName: &#39;my&#39;,
+      url: &#39;http://my-domain.com&#39;,
+      dev: false
+    }
+  },
+  tutorial: {
+    src: [&#39;content/tutorial/*.md&#39;],
+    title: &#39;Tutorial&#39;
+  },
+  api: {
+    src: [&#39;src/**/*.js&#39;, &#39;!src/**/*.spec.js&#39;],
+    title: &#39;API Documentation&#39;
+  }
+}</code></pre>
+<h4 id="getting-started_config_targets">Targets</h4>
+<p>Each grunt target creates a section in the documentation app.</p>
+<h5 id="getting-started_config_targets_src">src</h5>
+<p>[required] List of files to parse for documentation comments.</p>
+<h5 id="getting-started_config_targets_title">title</h5>
+<p>[default] &#39;API Documentation&#39;</p>
+<p>Set the name for the section in the documentation app.</p>
+<h5 id="getting-started_config_targets_api">api</h5>
+<p>[default] true for target api</p>
+<p>Set the sidebar to advanced mode, with sections for modules, services, etc.</p>
+<h4 id="getting-started_config_options">Options</h4>
+<h5 id="getting-started_config_options_dest">dest</h5>
+<p>[default] &#39;docs&#39;</p>
+<p>Folder relative to your Gruntfile where the documentation should be built.</p>
+<h5 id="getting-started_config_options_scripts">scripts</h5>
+<p>[default] [&#39;angular&#39;, &#39;angular-animate&#39;]</p>
+<p>Set which angular.js file or additional custom js files are loaded to the app. This allows the live examples to use custom directives, services, etc. The documentation app works with angular.js &gt;= 1.6.0. If .js extension is not provided, it
+assumes the file is a thirdparty module and gets the minified form of that file from &#39;node_modules/[module]/[module].min.js&#39;</p>
+<p>Possible values:</p>
+<ul>
+<li>[&#39;angular&#39;, &#39;angular-animate&#39;, &#39;marked&#39;] use angular, angular-animate and marked from your node_modules folder</li>
+<li>[&#39;path/to/file.js&#39;] file will be copied into the docs, into a <code>grunt-scripts</code> folder</li>
+<li>[&#39;<a href="http://example.com/file.js&#39;">http://example.com/file.js&#39;</a>, &#39;<a href="https://example.com/file.js&#39;">https://example.com/file.js&#39;</a>, &#39;//example.com/file.js&#39;] reference remote files (eg from a CDN)</li>
+<li>[&#39;../app.js&#39;] reference file relative to the dest folder</li>
+</ul>
+<h5 id="getting-started_config_options_deferload">deferLoad</h5>
+<p>[default] false</p>
+<p>If you want to use requirejs as loader set this to <code>true</code>.</p>
+<p>Include &#39;js/angular-bootstrap.js&#39;, &#39;js/angular-bootstrap-prettify.js&#39;, &#39;js/docs-setup.js&#39;, &#39;js/docs.js&#39; with requirejs and finally bootstrap the app <code>angular.bootstrap(document, [&#39;docsApp&#39;]);</code>.</p>
+<h5 id="getting-started_config_options_styles">styles</h5>
+<p>[default] []</p>
+<p>Copy additional css files to the documentation app</p>
+<h5 id="getting-started_config_options_template">template</h5>
+<p>[default] null</p>
+<p>Allow to use your own template. Use the default template at src/templates/index.tmpl as reference.</p>
+<h5 id="getting-started_config_options_thirdpartypath">thirdpartyPath</h5>
+<p>[default] node_modules</p>
+<p>If you want thirdparty modules to be loaded from a different location than node_modules, you can set that path here.</p>
+<h5 id="getting-started_config_options_startpage">startPage</h5>
+<p>[default] &#39;/api&#39;</p>
+<p>Set first page to open.</p>
+<h5 id="getting-started_config_options_html5mode">html5Mode</h5>
+<p>[default] false</p>
+<p>Whether or not to enable <code>html5Mode</code> in the docs application.  If true, then links will be absolute.  If false, they will be prefixed by <code>#!/</code>.</p>
+<h5 id="getting-started_config_options_bestmatch">bestMatch</h5>
+<p>[default] false</p>
+<p>The best matching page for a search query is highlighted and get selected on return.
+If this option is set to true the best match is shown below the search field in an dropdown menu. Use this for long lists where the highlight is often not visible.</p>
+<h5 id="getting-started_config_options_title">title</h5>
+<p>[default] &quot;name&quot; or &quot;title&quot; field in <code>pkg</code></p>
+<p>Title to put on the navbar and the page&#39;s <code>title</code> attribute.  By default, tries to
+find the title in the <code>pkg</code>. If it can&#39;t find it, it will go to an empty string.</p>
+<h5 id="getting-started_config_options_titlelink">titleLink</h5>
+<p>[default] no anchor tag is used</p>
+<p>Wraps the title text in an anchor tag with the provided URL.</p>
+<h5 id="getting-started_config_options_image">image</h5>
+<p>A URL or relative path to an image file to use in the top navbar.</p>
+<h5 id="getting-started_config_options_imagelink">imageLink</h5>
+<p>[default] no anchor tag is used</p>
+<p>Wraps the navbar image in an anchor tag with the provided URL.</p>
+<h5 id="getting-started_config_options_navtemplate">navTemplate</h5>
+<p>[default] null</p>
+<p>Path to a template of a nav HTML template to include.  The css for it
+should be that of listitems inside a bootstrap navbar:</p>
+<pre><code class="language-html">&lt;header class=&quot;header&quot;&gt;
+  &lt;div class=&quot;navbar&quot;&gt;
+    &lt;ul class=&quot;nav&quot;&gt;
+      {{links to all the docs pages}}
+    &lt;/ul&gt;
+    {{YOUR_NAV_TEMPLATE_GOES_HERE}}
+  &lt;/div&gt;
+&lt;/header&gt;</code></pre>
+<p>Example: &#39;templates/my-nav.html&#39;
+The template, if specified, is pre-processed using <a href="https://github.com/gruntjs/grunt/wiki/grunt.template#grunttemplateprocess">grunt.template</a>.</p>
+<p>###Targets
+Each grunt target creates a section in the documentation app.</p>
+<h5 id="getting-started_config_options_sourcelink">sourceLink</h5>
+<p>[default] true</p>
+<p>Display &quot;View source&quot; link.
+Possible values are</p>
+<ul>
+<li><code>true</code>: try to read repository from package.json (currently only github is supported)</li>
+<li><code>false</code>: don&#39;t display link</li>
+<li><p>string: template string like <code>&#39;https://internal.server/repo/blob/{{sha}}/{{file}}#L{{codeline}}&#39;</code></p>
+<p>available placeholders:</p>
+<ul>
+<li><strong>file</strong>: path and filename current file</li>
+<li><strong>filename</strong>: only filename of current file</li>
+<li><strong>filepath</strong>: directory of current file</li>
+<li><strong>line</strong>: first line of comment</li>
+<li><strong>codeline</strong>: first line <em>after</em> comment</li>
+<li><strong>version</strong>: version read from package.json</li>
+<li><strong>sha</strong>: first 7 characters of current git commit</li>
+</ul>
+</li>
+</ul>
+<h5 id="getting-started_config_options_editlink">editLink</h5>
+<p>[default] true</p>
+<p>Display &quot;Improve this doc&quot; link. Same options as for sourceLink.</p>
+<h5 id="getting-started_config_options_editexample">editExample</h5>
+<p>[default] true</p>
+<p>Show Edit Button for examples.</p>
+<h5 id="getting-started_config_options_inlinepartials">inlinePartials</h5>
+<p>[default] false</p>
+<p>If set to true this option will turn all partials into angular inline templates and place them inside the generated <code>index.html</code> file.
+The advantage over lazyloading with ajax is that the documentation will also work on the <code>file://</code> system.</p>
+<h5 id="getting-started_config_options_discussions">discussions</h5>
+<p>Optional include <a href="http://disqus.com">discussions</a> in the documentation app.</p>
+<pre><code class="language-js">{
+  shortName: &#39;my&#39;,
+  url: &#39;http://my-domain.com&#39;,
+  dev: false
+}</code></pre>
+<h5 id="getting-started_config_options_analytics">analytics</h5>
+<p>Optional include Google Analytics in the documentation app.</p>
+<pre><code class="language-js">{
+  account: &#39;UA-08150815-0&#39;
+}</code></pre>
+<h5 id="getting-started_config_options_adsconfig">adsConfig</h5>
+<p>Optional include Google Ads in the documentation app.</p>
+<pre><code class="language-js">{
+  client: &#39;ca-pub-6177019177103290&#39;,
+  slot: &#39;3609320072&#39;
+}</code></pre>
+<h3 id="getting-started_how-it-works">How it works</h3>
+<p>The task parses the specified files for doc comments and extracts them into partial html files for the documentation app.</p>
+<p>At first run, all necessary files will be copied to the destination folder.
+After that, only index.html, js/docs-setup.js, and the partials will be overwritten.</p>
+<p>Partials that are no longer needed will not be deleted. Use, for example, the grunt-contrib-clean task to clean the docs folder before creating a distribution build.</p>
+<p>After an update of grunt-uidocs-generator you should clean the docs folder too.</p>
+<p>A doc comment looks like this:</p>
+<pre><code class="language-js">/**
+ * @uidoc directive
+ * @name rfx.directive:rAutogrow
+ * @element textarea
+ * @function
+ *
+ * @description
+ * Resize textarea automatically to the size of its text content.
+ *
+ * **Note:** ie&lt;9 needs polyfill for window.getComputedStyle
+ *
+ * @example
+   <h3 id="getting-started_source">Source</h3>
+<div source-edit="rfx" source-edit-deps="angular.js" source-edit-html="index.html" source-edit-css="" source-edit-js="" source-edit-json="" source-edit-unit="" source-edit-scenario=""></div>
+<div class="tabbable"><div class="tab-pane" title="index.html">
+<pre class="prettyprint linenums" ng-set-text="index.html" ng-html-wrap-loaded="rfx angular.js"></pre>
+<script type="text/ng-template" id="index.html">
+         <textarea ng-model="text"rx-autogrow class="input-block-level"></textarea>
+         <pre>{{text}}</pre>
+     </script>
+</div>
+</div><h3 id="getting-started_demo">Demo</h3>
+<div class="well doc-example-live animate-container" ng-embed-app="rfx" ng-set-html="index.html" ng-eval-javascript=""></div>
+ */
+angular.module(&#39;rfx&#39;, []).directive(&#39;rAutogrow&#39;, function() {
+  //some nice code
+});</code></pre>
+<p>See the <a href="https://github.com/angular/angular.js/tree/master/src/ng">AngularJS source code</a> for more examples.</p>
+</div></div>

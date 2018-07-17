@@ -1,0 +1,66 @@
+<a href="https://github.com/angular-ui/grunt-uidocs-generator/edit/master/examples/02_CONTRIBUTING.ngdoc" class="improve-docs"><i class="icon-edit"> </i>Improve this doc</a><h1><code ng:non-bindable=""></code>
+<div><span class="hint"></span>
+</div>
+</h1>
+<div><div class="contributing-page"><h2 id="contributing">Contributing</h2>
+<p>In order to contribute to grunt-uidocs-generator follow the following steps:</p>
+<ol>
+<li>Clone your fork of our git repository: <code>git clone https://github.com/&lt;your-username&gt;/grunt-uidocs-generator.git</code></li>
+<li>Install dependencies: <code>npm install</code></li>
+<li>Install commitizen: <code>npm install -g commitizen</code></li>
+<li>Create a new branch in which to make your change: <code>git checkout -b YOUR_BRANCH_NAME_HERE</code></li>
+<li>Make your changes and run <code>npm test</code> to run unit tests on them and <code>npm start</code> to view their effect live.</li>
+<li>Once you have managed to successfully run <code>npm test`` and</code>npm start<code>, run</code>git add --all<code>and</code>git cz<code>to commit your changes, followed by</code>git push origin YOUR_BRANCH_NAME_HERE<code>`</code></li>
+<li>Open a Pull request and wait for it to be reviewed.</li>
+</ol>
+<h3 id="contributing_git-commit-guidelines">Git Commit Guidelines</h3>
+<p>We have very precise rules over how our git commit messages can be formatted.  This leads to <strong>more
+readable messages</strong> that are easy to follow when looking through the <strong>project history</strong>.  But also,
+we use the git commit messages to <strong>generate the <a href="https://github.com/angular-ui/grunt-uidocs-generator/blob/master/CHANGELOG.md">grunt-uidocs-generator changelog</a></strong>.</p>
+<p>Alternatively you can install <a href="https://github.com/commitizen/cz-cli">commitizen</a> <strong>OR</strong>
+use the wizard. To use the wizard, run <code>npm run commit</code> in your terminal after staging your changes in git.</p>
+<h4 id="contributing_git-commit-guidelines_commit-message-format">Commit Message Format</h4>
+<p><strong>If you do not follow this style guide your commit message will fail to be created.</strong>
+Each commit message consists of a <strong>header</strong>, a <strong>body</strong> and a <strong>footer</strong>.  The header has a special
+format that includes a <strong>type</strong>, a <strong>scope</strong> and a <strong>subject</strong>:</p>
+<pre><code>&lt;type&gt;(&lt;scope&gt;): &lt;subject&gt;
+&lt;BLANK LINE&gt;
+&lt;body&gt;
+&lt;BLANK LINE&gt;
+&lt;footer&gt;</code></pre><p>The <strong>header</strong> is mandatory and the <strong>scope</strong> of the header is optional.</p>
+<p>Any line of the commit message cannot be longer 100 characters! This allows the message to be easier
+to read on GitHub as well as in various git tools.</p>
+<h4 id="contributing_git-commit-guidelines_revert">Revert</h4>
+<p>If the commit reverts a previous commit, it should begin with <code>revert:</code>, followed by the header of the reverted commit. In the body it should say: <code>This reverts commit &lt;hash&gt;.</code>, where the hash is the SHA of the commit being reverted.</p>
+<h4 id="contributing_git-commit-guidelines_type">Type</h4>
+<p>Must be one of the following:</p>
+<ul>
+<li><strong>feat</strong>: A new feature</li>
+<li><strong>fix</strong>: A bug fix</li>
+<li><strong>docs</strong>: Documentation only changes</li>
+<li><strong>style</strong>: Changes that do not affect the meaning of the code (white-space, formatting, missing
+semi-colons, etc)</li>
+<li><strong>refactor</strong>: A code change that neither fixes a bug nor adds a feature</li>
+<li><strong>perf</strong>: A code change that improves performance</li>
+<li><strong>test</strong>: Adding missing tests</li>
+<li><strong>chore</strong>: Changes to the build process or auxiliary tools and libraries such as documentation
+generation</li>
+</ul>
+<h4 id="contributing_git-commit-guidelines_scope">Scope</h4>
+<p>The scope could be anything specifying place of the commit change. For example <code>core</code>,
+<code>infinite-scroll</code>, <code>pagination</code>, <code>cellnav</code>, <code>edit</code>, <code>importer</code>, <code>pinning</code>, etc...</p>
+<h4 id="contributing_git-commit-guidelines_subject">Subject</h4>
+<p>The subject contains succinct description of the change:</p>
+<ul>
+<li>use the imperative, present tense: &quot;change&quot; not &quot;changed&quot; nor &quot;changes&quot;</li>
+<li>don&#39;t capitalize first letter</li>
+<li>no dot (.) at the end</li>
+</ul>
+<h4 id="contributing_git-commit-guidelines_body">Body</h4>
+<p>Just as in the <strong>subject</strong>, use the imperative, present tense: &quot;change&quot; not &quot;changed&quot; nor &quot;changes&quot;.
+The body should include the motivation for the change and contrast this with previous behavior.</p>
+<h4 id="contributing_git-commit-guidelines_footer">Footer</h4>
+<p>The footer should contain any information about <strong>Breaking Changes</strong> and is also the place to
+reference GitHub issues that this commit <strong>Closes</strong>.</p>
+<p><strong>Breaking Changes</strong> should start with the word <code>BREAKING CHANGE:</code> with a space or two newlines. The rest of the commit message is then used for this.</p>
+</div></div>
