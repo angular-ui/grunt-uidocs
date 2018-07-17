@@ -5,29 +5,29 @@
 exports.docs = [];
 exports.process = process;
 
-var uidoc = require('./uidoc.js'),
-    NEW_LINE = /\n\r?/;
+const uidoc = require('./uidoc.js');
+const NEW_LINE = /\n\r?/;
 
 function process(content, file, section, options) {
-  if (file.match(/\.uidoc$/)) {
-    var header = '@section ' + section + '\n';
-    exports.docs.push(new uidoc.Doc(header + content.toString(),file, 1, 1, options).parse());
+  if (file.match(/\.uidoc$|\.ngdoc$/)) {
+    const header = '@section ' + section + '\n';
+    const fileContent = content.toString().replace(/@ngdoc/g, '@uidoc');
+    exports.docs.push(new uidoc.Doc(header + fileContent, file, 1, 1, options).parse());
   } else {
-    processJsFile(content, file, section, options).forEach(function(doc) {
+    processJsFile(content, file, section, options).forEach((doc) => {
       exports.docs.push(doc);
     });
   }
 }
 
 function processJsFile(content, file, section, options) {
-  var docs = [];
-  var lines = content.toString().split(NEW_LINE);
-  var text;
-  var startingLine ;
-  var match;
-  var inDoc = false;
+  const docs = [];
+  const lines = content.toString().split(NEW_LINE);
 
-  lines.forEach(function(line, lineNumber){
+  let text, startingLine, match,
+      inDoc = false;
+
+  lines.forEach((line, lineNumber) => {
     try {
       lineNumber++;
       // is the comment starting?
@@ -40,9 +40,8 @@ function processJsFile(content, file, section, options) {
       // are we done?
       if (inDoc && line.match(/\*\//)) {
         text = text.join('\n');
-        text = text.replace(/^\n/, '');
+        text = text.replace(/^\n/, '').replace(/@ngdoc/g, '@uidoc');
         if (text.match(/@uidoc/)) {
-          //console.log(file, startingLine)
           docs.push(new uidoc.Doc('@section ' + section + '\n' + text, file, startingLine, lineNumber, options).parse());
         }
         doc = null;
@@ -52,7 +51,7 @@ function processJsFile(content, file, section, options) {
       if (inDoc) {
         text.push(line.replace(/^\s*\*\s?/, ''));
       }
-    }catch(e){
+    } catch(e){
       throw new Error('error parsing [' + file + '] line ' + lineNumber + '\n' + e);
     }
   });

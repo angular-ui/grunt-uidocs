@@ -424,7 +424,7 @@ Doc.prototype = {
 
     this.id = this.id || // if we have an id just use it
       (this.uidoc === 'error' ? this.name : '') ||
-      (((this.file||'').match(/.*(\/|\\)([^(\/|\\)]*)\.uidoc/)||{})[2]) || // try to extract it from file name
+      (((this.file||'').match(/.*(\/|\\)([^(\/|\\)]*)\.uidoc|ngdoc/)||{})[2]) || // try to extract it from file name
       this.name; // default to name
     this.description = this.markdown(this.description);
     this.example = this.markdown(this.example);
