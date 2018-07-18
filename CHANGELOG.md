@@ -1,3 +1,19 @@
+<a name="0.6.0"></a>
+# [0.6.0](https://github.com/angular-ui/grunt-uidocs-generator/compare/v0.5.0...v0.6.0) (2018-07-18)
+
+
+### Bug Fixes
+
+* **baseCSSPath:** baseCSSPath support for local CSS files. ([1fc5af5](https://github.com/angular-ui/grunt-uidocs-generator/commit/1fc5af5))
+* **task name:** Rename task from uidocs to uidocs-generator ([7466fa2](https://github.com/angular-ui/grunt-uidocs-generator/commit/7466fa2))
+
+
+### BREAKING CHANGES
+
+* **task name:** Renamed grunt task from uidocs to uidocs-generator.
+
+
+
 <a name="0.5.0"></a>
 # [0.5.0](https://github.com/angular-ui/grunt-uidocs-generator/compare/v0.4.1...v0.5.0) (2018-07-17)
 
