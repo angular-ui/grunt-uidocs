@@ -110,6 +110,15 @@ module.exports = (grunt) => {
       options.image = gruntStylesFolder + '/' + options.image;
     }
 
+    function loadCSSFile(file) {
+      if (linked.test(file)) {
+        return file;
+      }
+      const filename = file.split('/').pop();
+      grunt.file.copy(file, path.join(options.dest, 'css', filename));
+      return `css/${filename}`;
+    }
+
     if (options.baseCSSPath === 'bootstrap') {
       grunt.file.copy(
         `${options.thirdpartyPath}/bootstrap/dist/css/bootstrap.min.css`,
@@ -117,16 +126,11 @@ module.exports = (grunt) => {
       );
 
       options.baseCSSPath = 'css/bootstrap.min.css';
+    } else {
+      options.baseCSSPath = loadCSSFile(options.baseCSSPath);
     }
 
-    options.styles = options.styles.map(function(file) {
-      if (linked.test(file)) {
-        return file;
-      }
-      var filename = file.split('/').pop();
-      grunt.file.copy(file, path.join(options.dest, 'css', filename));
-      return 'css/' + filename;
-    });
+    options.styles = options.styles.map(loadCSSFile);
 
     setup = prepareSetup(section, options);
 
