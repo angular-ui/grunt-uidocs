@@ -11,8 +11,8 @@
   "homepage": "https://github.com/angular-ui/grunt-uidocs-generator",
   "bugs": "https://github.com/angular-ui/grunt-uidocs-generator/issues",
   "scripts": {
-    "build": "grunt clean uidocs",
-    "start": "npm run build && grunt connect",
+    "build": "grunt clean uidocs-generator",
+    "start": "grunt clean uidocs-generator connect",
     "test": "grunt test",
     "preversion": "npm test",
     "version": "npm run build && grunt conventionalChangelog && git add -f docs/ CHANGELOG.md",

@@ -31,7 +31,7 @@ module.exports = function (grunt) {
       },
       all: ['spec/']
     },
-    uidocs: {
+    'uidocs-generator': {
       options: {
         title: 'grunt-uidocs-example',
         html5Mode: false

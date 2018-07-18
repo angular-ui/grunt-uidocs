@@ -31,7 +31,7 @@ Inside your `Gruntfile.js` file, add a section named *uidocs*.
 Here's a simple example:
 
 ```js
-uidocs: {
+uidocs-generator: {
   all: ['src/**/*.js']
 }
 ```
@@ -39,7 +39,7 @@ uidocs: {
 And with many options:
 
 ```js
-uidocs: {
+uidocs-generator: {
   options: {
     dest: 'docs',
     scripts: ['../app.min.js'],
