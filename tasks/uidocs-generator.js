@@ -28,7 +28,7 @@ module.exports = (grunt) => {
   const unittest = {};
   const templates = path.resolve(__dirname, '../src/templates');
 
-  grunt.registerMultiTask('uidocs', 'build documentation', function() {
+  grunt.registerMultiTask('uidocs-generator', 'build documentation', function() {
     var start = now(),
         pkg = getPackage(),
         done = this.async(),
