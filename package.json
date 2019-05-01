@@ -1,6 +1,6 @@
 {
   "name": "grunt-uidocs-generator",
-  "version": "0.6.1",
+  "version": "0.7.0",
   "description": "grunt plugin for angularjs documentation",
   "main": "tasks",
   "repository": {

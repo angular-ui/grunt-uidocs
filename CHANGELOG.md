@@ -1,3 +1,14 @@
+<a name="0.7.0"></a>
+# [0.7.0](https://github.com/angular-ui/grunt-uidocs-generator/compare/v0.6.0...v0.7.0) (2019-05-01)
+
+
+### Bug Fixes
+
+* **docs.js:** use link tag for CSS files ([d355d30](https://github.com/angular-ui/grunt-uidocs-generator/commit/d355d30)), closes [#14](https://github.com/angular-ui/grunt-uidocs-generator/issues/14)
+* **package.json:** update bootstrap version ([e87bbbb](https://github.com/angular-ui/grunt-uidocs-generator/commit/e87bbbb))
+
+
+
 <a name="0.6.1"></a>
 ## [0.6.1](https://github.com/angular-ui/grunt-uidocs-generator/compare/v0.6.0...v0.6.1) (2018-11-15)
 
